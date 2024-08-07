@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:ebook_reader/common/widgets/bottom_navigation_app_item.dart';
-import 'package:ebook_reader/screens/app_route.dart';
+import 'package:ebook_reader/presentations/app_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -1,10 +1,10 @@
 import 'package:ebook_reader/common/widgets/scaffold_nav_bar.dart';
-import 'package:ebook_reader/screens/app_route.dart';
-import 'package:ebook_reader/screens/category/presentation/ui/category_page.dart';
-import 'package:ebook_reader/screens/home/presentation/ui/home_page.dart';
-import 'package:ebook_reader/screens/library/presentation/ui/library_page.dart';
-import 'package:ebook_reader/screens/setting/presentation/ui/setting_page.dart';
-import 'package:ebook_reader/screens/splash/presentation/ui/splash_page.dart';
+import 'package:ebook_reader/presentations/app_route.dart';
+import 'package:ebook_reader/presentations/pages/category/category_page.dart';
+import 'package:ebook_reader/presentations/pages/home/home_page.dart';
+import 'package:ebook_reader/presentations/pages/library/library_page.dart';
+import 'package:ebook_reader/presentations/pages/setting/setting_page.dart';
+import 'package:ebook_reader/presentations/pages/splash/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
