@@ -15,7 +15,7 @@ class BottomNavigationAppBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    int selectedIndex = ref.watch(bottomNavigationAppBarProvider);
+    int selectedIndex = ref.watch(bottomNavigationAppBarNotifierProvider);
     return NavigationBar(
       selectedIndex: selectedIndex,
       destinations: [
@@ -37,7 +37,7 @@ class BottomNavigationAppBar extends ConsumerWidget {
         ),
       ],
       onDestinationSelected: (index) {
-        ref.read(bottomNavigationAppBarProvider.notifier).changePage(index);
+        ref.read(bottomNavigationAppBarNotifierProvider.notifier).changePage(index);
         _onItemTapped(index, context);
       },
       backgroundColor: Theme.of(context).colorScheme.surfaceContainer,

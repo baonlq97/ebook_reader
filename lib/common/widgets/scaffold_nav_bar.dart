@@ -1,8 +1,13 @@
+import 'package:ebook_reader/common/notifier/bottom_navigation_app_bar_notifier.dart';
 import 'package:ebook_reader/common/widgets/bottom_navigation_app_bar.dart';
+import 'package:ebook_reader/presentations/pages/category/category_page.dart';
+import 'package:ebook_reader/presentations/pages/home/home_page.dart';
+import 'package:ebook_reader/presentations/pages/library/library_page.dart';
+import 'package:ebook_reader/presentations/pages/setting/setting_page.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ScaffoldWithNavBar extends StatelessWidget {
+class ScaffoldWithNavBar extends ConsumerWidget {
   /// Constructs an [ScaffoldWithNavBar].
   const ScaffoldWithNavBar({
     required this.child,
@@ -14,10 +19,20 @@ class ScaffoldWithNavBar extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedIndex = ref.watch(bottomNavigationAppBarNotifierProvider);
+
     return Scaffold(
-      body: child,
-      bottomNavigationBar: const BottomNavigationAppBar()
+      body: IndexedStack(
+        index: selectedIndex,
+        children: const [
+          HomePage(),
+          CategoryPage(),
+          LibraryPage(),
+          SettingPage(),
+        ],
+      ),
+      bottomNavigationBar: const BottomNavigationAppBar(),
     );
   }
 }
