@@ -41,6 +41,10 @@ dependencies:
   go_router: ^14.2.3
   lottie: ^3.1.2
   cached_network_image: ^3.4.0
+  equatable: ^2.0.5
+  json_annotation: ^4.9.0
+  dio: ^5.5.0+1
+  retrofit: ^4.1.0
 
 dev_dependencies:
   flutter_test:
@@ -57,6 +61,8 @@ dev_dependencies:
   custom_lint: ^0.6.4
   riverpod_lint: ^2.3.10
   flutter_gen_runner: ^5.6.0
+  json_serializable: ^6.8.0
+  retrofit_generator: ^8.1.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
