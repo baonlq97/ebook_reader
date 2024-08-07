@@ -65,11 +65,49 @@ class $AssetsDrawableGen {
 class $AssetsFontsGen {
   const $AssetsFontsGen();
 
+  /// File path: assets/fonts/figerona_black.otf
+  String get figeronaBlack => 'assets/fonts/figerona_black.otf';
+
+  /// File path: assets/fonts/figerona_bold.otf
+  String get figeronaBold => 'assets/fonts/figerona_bold.otf';
+
+  /// File path: assets/fonts/figerona_extrabold.otf
+  String get figeronaExtrabold => 'assets/fonts/figerona_extrabold.otf';
+
+  /// File path: assets/fonts/figerona_extralight.otf
+  String get figeronaExtralight => 'assets/fonts/figerona_extralight.otf';
+
+  /// File path: assets/fonts/figerona_light.otf
+  String get figeronaLight => 'assets/fonts/figerona_light.otf';
+
+  /// File path: assets/fonts/figerona_medium.otf
+  String get figeronaMedium => 'assets/fonts/figerona_medium.otf';
+
+  /// File path: assets/fonts/figerona_regular.otf
+  String get figeronaRegular => 'assets/fonts/figerona_regular.otf';
+
+  /// File path: assets/fonts/figerona_semibold.otf
+  String get figeronaSemibold => 'assets/fonts/figerona_semibold.otf';
+
+  /// File path: assets/fonts/figerona_thin.otf
+  String get figeronaThin => 'assets/fonts/figerona_thin.otf';
+
   /// File path: assets/fonts/pacifico_regular.ttf
   String get pacificoRegular => 'assets/fonts/pacifico_regular.ttf';
 
   /// List of all assets
-  List<String> get values => [pacificoRegular];
+  List<String> get values => [
+        figeronaBlack,
+        figeronaBold,
+        figeronaExtrabold,
+        figeronaExtralight,
+        figeronaLight,
+        figeronaMedium,
+        figeronaRegular,
+        figeronaSemibold,
+        figeronaThin,
+        pacificoRegular
+      ];
 }
 
 class $AssetsRawsGen {
