@@ -4,6 +4,7 @@ enum AppRoute {
   categories,
   library,
   settings,
+  bookDetail,
 }
 
 extension AppRoutePath on AppRoute {
@@ -19,6 +20,8 @@ extension AppRoutePath on AppRoute {
         return '/library';
       case AppRoute.settings:
         return '/settings';
+      case AppRoute.bookDetail:
+        return '/book_detail/:bookId';
     }
   }
 }
