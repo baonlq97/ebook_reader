@@ -169,5 +169,21 @@ final insertIntoDBProvider = AutoDisposeProvider<void>.internal(
 );
 
 typedef InsertIntoDBRef = AutoDisposeProviderRef<void>;
+String _$downloadNotifierHash() => r'5887d3b93a91e9e0d81e3c0b9b042f379ee84ebc';
+
+/// See also [DownloadNotifier].
+@ProviderFor(DownloadNotifier)
+final downloadNotifierProvider =
+    AutoDisposeNotifierProvider<DownloadNotifier, double>.internal(
+  DownloadNotifier.new,
+  name: r'downloadNotifierProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$downloadNotifierHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$DownloadNotifier = AutoDisposeNotifier<double>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

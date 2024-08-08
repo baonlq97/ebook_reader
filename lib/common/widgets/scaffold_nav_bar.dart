@@ -1,5 +1,5 @@
-import 'package:ebook_reader/common/notifier/bottom_navigation_app_bar_notifier.dart';
-import 'package:ebook_reader/common/widgets/bottom_navigation_app_bar.dart';
+import 'package:ebook_reader/common/provider/bottom_navigation_app_bar/bottom_navigation_app_bar_provider.dart';
+import 'package:ebook_reader/common/widgets/bottom_navigation_app_bar.dart' as app_bar;
 import 'package:ebook_reader/presentations/pages/category/category_page.dart';
 import 'package:ebook_reader/presentations/pages/home/home_page.dart';
 import 'package:ebook_reader/presentations/pages/library/library_page.dart';
@@ -20,7 +20,7 @@ class ScaffoldWithNavBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedIndex = ref.watch(bottomNavigationAppBarNotifierProvider);
+    final selectedIndex = ref.watch(bottomNavigationAppBarProvider);
 
     return Scaffold(
       body: IndexedStack(
@@ -32,7 +32,7 @@ class ScaffoldWithNavBar extends ConsumerWidget {
           SettingPage(),
         ],
       ),
-      bottomNavigationBar: const BottomNavigationAppBar(),
+      bottomNavigationBar: const app_bar.BottomNavigationAppBar(),
     );
   }
 }

@@ -1,9 +1,9 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'bottom_navigation_app_bar_notifier.g.dart';
+part 'bottom_navigation_app_bar_provider.g.dart';
 
 @riverpod
-class BottomNavigationAppBarNotifier extends _$BottomNavigationAppBarNotifier {
+class BottomNavigationAppBar extends _$BottomNavigationAppBar {
   @override
   int build() {
     return 0;

@@ -1,3 +1,4 @@
+import 'package:ebook_reader/common/provider/book_downloader/book_downloader_provider.dart';
 import 'package:ebook_reader/presentations/notifiers/book_detail/book_detail_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,6 +20,8 @@ class BookDetailPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final book = ref.watch(getBookDetailProvider(bookId));
+    final downloadProgress = ref.watch(downloadNotifierProvider);
+    final downloader = ref.read(downloadNotifierProvider.notifier);
     return Scaffold(
       appBar: TopAppBar(
         headerTitle: "Book Detail",
@@ -26,24 +29,33 @@ class BookDetailPage extends ConsumerWidget {
       ),
       body: book.when(
         data: (data) {
-          return BookItemCard(
-            title: "All books",
-            author: "All books",
-            language: "All books",
-            subjects: "All books",
-            coverImageUrl: "",
-            onClick: () => {
-              downloader.startDownloading(
-                context,
-                data!,
-                (first, second) {
-                  print(first / second);
+          return Column(
+            children: [
+              BookItemCard(
+                title: "All books",
+                author: "All books",
+                language: "All books",
+                subjects: "All books",
+                coverImageUrl: "",
+                onClick: () => {
+                  downloader.startDownloading(
+                    context,
+                    data!,
+                    (path) {
+                      print(path);
+                    },
+                  )
                 },
-                (path) {
-                  print(path);
-                },
-              )
-            },
+              ),
+              if (downloadProgress < 1.0)
+                LinearProgressIndicator(
+                  value: downloadProgress,
+                ),
+              if (downloadProgress < 1.0)
+                Text(
+                  '${downloadProgress*100}% downloaded',
+                ),
+            ],
           );
         },
         error: (error, stackTrace) => const Icon(Icons.error),

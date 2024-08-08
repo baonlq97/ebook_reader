@@ -13,7 +13,7 @@ class BookDownloader {
 
   BookDownloader();
 
-  void startDownloading(
+  Future<void> startDownloading(
     BuildContext context,
     BookSet bookSet,
     Function(int, int) onReceiveProgress,

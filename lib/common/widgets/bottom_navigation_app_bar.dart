@@ -4,7 +4,7 @@ import 'package:ebook_reader/presentations/app_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:ebook_reader/common/notifier/bottom_navigation_app_bar_notifier.dart';
+import 'package:ebook_reader/common/provider/bottom_navigation_app_bar/bottom_navigation_app_bar_provider.dart';
 import 'package:ebook_reader/gen/assets.gen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -15,7 +15,7 @@ class BottomNavigationAppBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    int selectedIndex = ref.watch(bottomNavigationAppBarNotifierProvider);
+    int selectedIndex = ref.watch(bottomNavigationAppBarProvider);
     return NavigationBar(
       selectedIndex: selectedIndex,
       destinations: [
@@ -37,7 +37,7 @@ class BottomNavigationAppBar extends ConsumerWidget {
         ),
       ],
       onDestinationSelected: (index) {
-        ref.read(bottomNavigationAppBarNotifierProvider.notifier).changePage(index);
+        ref.read(bottomNavigationAppBarProvider.notifier).changePage(index);
         _onItemTapped(index, context);
       },
       backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
