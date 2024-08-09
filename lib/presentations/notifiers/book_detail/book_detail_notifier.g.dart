@@ -155,21 +155,150 @@ class _GetBookDetailProviderElement
   int get bookId => (origin as GetBookDetailProvider).bookId;
 }
 
-String _$insertIntoDBHash() => r'910c3a73adb76a7c165205105c75c8119bc4ea00';
+String _$getBookByIdHash() => r'579ee5c1d5e578163f71f6bcb09d26f96535d9f0';
 
-/// See also [insertIntoDB].
-@ProviderFor(insertIntoDB)
-final insertIntoDBProvider = AutoDisposeProvider<void>.internal(
-  insertIntoDB,
-  name: r'insertIntoDBProvider',
+/// See also [getBookById].
+@ProviderFor(getBookById)
+const getBookByIdProvider = GetBookByIdFamily();
+
+/// See also [getBookById].
+class GetBookByIdFamily extends Family<AsyncValue<LibraryItem?>> {
+  /// See also [getBookById].
+  const GetBookByIdFamily();
+
+  /// See also [getBookById].
+  GetBookByIdProvider call(
+    int bookId,
+  ) {
+    return GetBookByIdProvider(
+      bookId,
+    );
+  }
+
+  @override
+  GetBookByIdProvider getProviderOverride(
+    covariant GetBookByIdProvider provider,
+  ) {
+    return call(
+      provider.bookId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getBookByIdProvider';
+}
+
+/// See also [getBookById].
+class GetBookByIdProvider extends AutoDisposeFutureProvider<LibraryItem?> {
+  /// See also [getBookById].
+  GetBookByIdProvider(
+    int bookId,
+  ) : this._internal(
+          (ref) => getBookById(
+            ref as GetBookByIdRef,
+            bookId,
+          ),
+          from: getBookByIdProvider,
+          name: r'getBookByIdProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getBookByIdHash,
+          dependencies: GetBookByIdFamily._dependencies,
+          allTransitiveDependencies:
+              GetBookByIdFamily._allTransitiveDependencies,
+          bookId: bookId,
+        );
+
+  GetBookByIdProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.bookId,
+  }) : super.internal();
+
+  final int bookId;
+
+  @override
+  Override overrideWith(
+    FutureOr<LibraryItem?> Function(GetBookByIdRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: GetBookByIdProvider._internal(
+        (ref) => create(ref as GetBookByIdRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        bookId: bookId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<LibraryItem?> createElement() {
+    return _GetBookByIdProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetBookByIdProvider && other.bookId == bookId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, bookId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin GetBookByIdRef on AutoDisposeFutureProviderRef<LibraryItem?> {
+  /// The parameter `bookId` of this provider.
+  int get bookId;
+}
+
+class _GetBookByIdProviderElement
+    extends AutoDisposeFutureProviderElement<LibraryItem?> with GetBookByIdRef {
+  _GetBookByIdProviderElement(super.provider);
+
+  @override
+  int get bookId => (origin as GetBookByIdProvider).bookId;
+}
+
+String _$insertItemHash() => r'18482ac81d0bc2ea2d968aeaf16b9e294bb6d5bb';
+
+/// See also [InsertItem].
+@ProviderFor(InsertItem)
+final insertItemProvider =
+    AutoDisposeAsyncNotifierProvider<InsertItem, void>.internal(
+  InsertItem.new,
+  name: r'insertItemProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$insertIntoDBHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$insertItemHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef InsertIntoDBRef = AutoDisposeProviderRef<void>;
-String _$downloadNotifierHash() => r'5887d3b93a91e9e0d81e3c0b9b042f379ee84ebc';
+typedef _$InsertItem = AutoDisposeAsyncNotifier<void>;
+String _$downloadNotifierHash() => r'23ead8e64ef991ee7d01dedc461d9ec31c34a6d0';
 
 /// See also [DownloadNotifier].
 @ProviderFor(DownloadNotifier)

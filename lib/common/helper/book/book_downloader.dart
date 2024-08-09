@@ -2,8 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:ebook_reader/common/utils/util.dart';
-import 'package:ebook_reader/domain/models/book/book.dart';
-import 'package:ebook_reader/domain/models/book_set/book_set.dart';
+import 'package:ebook_reader/data/models/api/book/book.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -15,13 +14,13 @@ class BookDownloader {
 
   Future<void> startDownloading(
     BuildContext context,
-    BookSet bookSet,
+    Book book,
     Function(int, int) onReceiveProgress,
     Function(String) onSuccess,
   ) async {
-    final fileName = Utility.createEpubFileName(bookSet.books.first.title);
+    final fileName = Utility.createEpubFileName(book.title);
 
-    String baseUrl = bookSet.books.first.formats.applicationEpubZip;
+    String baseUrl = book.formats.applicationEpubZip;
     String path = await _getTempFilePath(fileName);
 
     final tempFile = File(path);

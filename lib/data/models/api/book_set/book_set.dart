@@ -1,4 +1,4 @@
-import 'package:ebook_reader/domain/models/book/book.dart';
+import 'package:ebook_reader/data/models/api/book/book.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 

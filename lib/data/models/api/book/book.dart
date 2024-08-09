@@ -1,6 +1,6 @@
-import 'package:ebook_reader/domain/models/author/author.dart';
-import 'package:ebook_reader/domain/models/formats/formats.dart';
-import 'package:ebook_reader/domain/models/translator/translator.dart';
+import 'package:ebook_reader/data/models/api/author/author.dart';
+import 'package:ebook_reader/data/models/api/formats/formats.dart';
+import 'package:ebook_reader/data/models/api/translator/translator.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'book.g.dart';

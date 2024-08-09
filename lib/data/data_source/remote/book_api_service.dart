@@ -1,8 +1,8 @@
 
 import 'package:dio/dio.dart';
 import 'package:ebook_reader/common/constant/constant.dart';
-import 'package:ebook_reader/domain/models/book/book.dart';
-import 'package:ebook_reader/domain/models/book_set/book_set.dart';
+import 'package:ebook_reader/data/models/api/book/book.dart';
+import 'package:ebook_reader/data/models/api/book_set/book_set.dart';
 import 'package:retrofit/retrofit.dart';
 part 'book_api_service.g.dart';
 

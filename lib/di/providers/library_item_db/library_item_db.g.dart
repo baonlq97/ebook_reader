@@ -1,25 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'book_repository_provider.dart';
+part of 'library_item_db.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$bookRepositoryHash() => r'52515d0efb645f6d543126d142f66dc5b1ce7ebc';
+String _$libraryItemDBHash() => r'748efb08e248fd50c933cb0c249ada52fc0873c9';
 
-/// See also [bookRepository].
-@ProviderFor(bookRepository)
-final bookRepositoryProvider = AutoDisposeProvider<BookRepository>.internal(
-  bookRepository,
-  name: r'bookRepositoryProvider',
+/// See also [libraryItemDB].
+@ProviderFor(libraryItemDB)
+final libraryItemDBProvider = AutoDisposeFutureProvider<Isar>.internal(
+  libraryItemDB,
+  name: r'libraryItemDBProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$bookRepositoryHash,
+      : _$libraryItemDBHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef BookRepositoryRef = AutoDisposeProviderRef<BookRepository>;
+typedef LibraryItemDBRef = AutoDisposeFutureProviderRef<Isar>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

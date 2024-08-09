@@ -1,7 +1,6 @@
 import 'package:ebook_reader/common/resources/data_state.dart';
 import 'package:ebook_reader/di/providers/book_repository/book_repository_provider.dart';
-import 'package:ebook_reader/domain/models/book_set/book_set.dart';
-import 'package:ebook_reader/domain/repositories/book_repository.dart';
+import 'package:ebook_reader/data/models/api/book_set/book_set.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'home_notifier.g.dart';
