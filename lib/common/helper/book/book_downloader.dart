@@ -1,16 +1,20 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:ebook_reader/common/utils/util.dart';
-import 'package:ebook_reader/data/models/api/book/book.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
-class BookDownloader {
-  Dio dio = Dio();
-  bool isSuccess = false;
+import 'package:ebook_reader/common/utils/util.dart';
+import 'package:ebook_reader/data/models/api/book/book.dart';
 
-  BookDownloader();
+class BookDownloader {
+  final Dio dio;
+  bool isSuccess;
+
+  BookDownloader({
+    required this.dio,
+    this.isSuccess = false,
+  });
 
   Future<void> startDownloading(
     BuildContext context,
@@ -46,8 +50,7 @@ class BookDownloader {
         final bookFile = await tempFile.copy(bookFilePath);
         tempFile.delete();
         onSuccess(bookFile.absolute.path);
-      }
-      catch(ex) {
+      } catch (ex) {
         print(ex);
       }
     }

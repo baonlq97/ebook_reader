@@ -26,7 +26,7 @@ packages:
     source: hosted
     version: "0.11.2"
   archive:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: archive
       sha256: cb6a278ef2dbb298455e1a713bda08524a175630ec643a242c399c932a0a1f7d
@@ -225,6 +225,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
+  csslib:
+    dependency: transitive
+    description:
+      name: csslib
+      sha256: "831883fb353c8bdc1d71979e5b342c7d88acfbc643113c14ae51e2442ea0f20f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.17.3"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -289,6 +297,21 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
+  epub_view:
+    dependency: "direct main"
+    description:
+      path: "/Volumes/Dev/dev_env/baonguyen-dev/ebook_reader/epub_view"
+      relative: false
+    source: path
+    version: "3.2.0"
+  epubx:
+    dependency: transitive
+    description:
+      name: epubx
+      sha256: "0ab9354efa177c4be52c46f857bc15bf83f83a92667fb673465c8f89fca26db3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.0"
   equatable:
     dependency: "direct main"
     description:
@@ -358,6 +381,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.6.0"
+  flutter_html:
+    dependency: transitive
+    description:
+      name: flutter_html
+      sha256: "02ad69e813ecfc0728a455e4bf892b9379983e050722b1dce00192ee2e41d1ee"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0-beta.2"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -448,6 +479,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.0"
+  html:
+    dependency: transitive
+    description:
+      name: html
+      sha256: "3a7812d5bcd2894edf53dfaf8cd640876cf6cef50a8f238745c8b8120ea74d3a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.15.4"
   http:
     dependency: "direct overridden"
     description:
@@ -472,6 +511,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  image:
+    dependency: transitive
+    description:
+      name: image
+      sha256: "8e9d133755c3e84c73288363e6343157c383a0c6c56fc51afcc5d4d7180306d6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.3.0"
   image_size_getter:
     dependency: transitive
     description:
@@ -480,8 +527,16 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.3"
+  internet_file:
+    dependency: "direct main"
+    description:
+      name: internet_file
+      sha256: c3e6aa0c1cc6c08e701bb91019a7784fece1f64e18464f53df1200caa7598b68
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   intl:
-    dependency: "direct overridden"
+    dependency: "direct main"
     description:
       name: intl
       sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
@@ -576,6 +631,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
+  list_counter:
+    dependency: transitive
+    description:
+      name: list_counter
+      sha256: c447ae3dfcd1c55f0152867090e67e219d42fe6d4f2807db4bbe8b8d69912237
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   logging:
     dependency: transitive
     description:
@@ -768,6 +831,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.0"
+  quiver:
+    dependency: transitive
+    description:
+      name: quiver
+      sha256: b1c1ac5ce6688d77f65f3375a9abb9319b3cb32486bdc7a1e0fdf004d7ba4e47
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.1"
   retrofit:
     dependency: "direct main"
     description:
@@ -832,6 +903,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+  scrollable_positioned_list:
+    dependency: transitive
+    description:
+      name: scrollable_positioned_list
+      sha256: "1b54d5f1329a1e263269abc9e2543d90806131aa14fe7c6062a8054d57249287"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.8"
   shelf:
     dependency: transitive
     description:
@@ -997,6 +1076,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.2"
+  universal_file:
+    dependency: transitive
+    description:
+      name: universal_file
+      sha256: d1a957fccaad2a32023b62fe435b273ee47aaf2eb804709795e4bf4afff50960
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   uuid:
     dependency: transitive
     description:
@@ -1078,7 +1165,7 @@ packages:
     source: hosted
     version: "1.0.4"
   xml:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: xml
       sha256: b015a8ad1c488f66851d762d3090a21c600e479dc75e68328c52774040cf9226

@@ -1,20 +1,20 @@
 import 'package:ebook_reader/common/helper/book/book_util.dart';
 import 'package:ebook_reader/common/provider/book_downloader/book_downloader_provider.dart';
 import 'package:ebook_reader/data/models/database/library_item.dart';
+import 'package:ebook_reader/presentations/app_route.dart';
 import 'package:ebook_reader/presentations/notifiers/book_detail/book_detail_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:ebook_reader/common/helper/book/book_downloader.dart';
 import 'package:ebook_reader/common/widgets/book_item_card.dart';
 import 'package:ebook_reader/common/widgets/top_app_bar.dart';
 import 'package:ebook_reader/gen/assets.gen.dart';
+import 'package:go_router/go_router.dart';
 
 class BookDetailPage extends ConsumerWidget {
   final int bookId;
-  final BookDownloader downloader = BookDownloader();
 
-  BookDetailPage({
+  const BookDetailPage({
     super.key,
     required this.bookId,
   });
@@ -24,7 +24,7 @@ class BookDetailPage extends ConsumerWidget {
     final book = ref.watch(getBookDetailProvider(bookId));
     final downloadProgress = ref.watch(downloadNotifierProvider);
     final downloader = ref.read(downloadNotifierProvider.notifier);
-    final getBookById = ref.read(getBookByIdProvider(bookId));
+    final getBookById = ref.watch(getBookByIdProvider(bookId));
 
     return Scaffold(
       appBar: TopAppBar(
@@ -33,6 +33,7 @@ class BookDetailPage extends ConsumerWidget {
       ),
       body: book.when(
         data: (data) {
+          LibraryItem? libraryItem;
           final book = data!.books.first;
           final libraryItemProvider = ref.watch(getBookByIdProvider(book.id));
           return Column(
@@ -48,24 +49,33 @@ class BookDetailPage extends ConsumerWidget {
                     context,
                     book,
                     (path) {
-                      final insertItemNotifier =
-                          ref.watch(insertItemProvider.notifier);
+                      final insertItemNotifier = ref.watch(
+                        insertItemProvider.notifier,
+                      );
 
                       insertItemNotifier
                           .insert(
                         LibraryItem(
                           bookId: book.id,
                           title: book.title,
-                          authors: BookUtil.getAuthorsAsString(book.authors),
+                          authors: BookUtil.getAuthorsAsString(
+                            book.authors,
+                          ),
                           filePath: path,
                           createdAt: DateTime.now().millisecondsSinceEpoch,
                         ),
                       )
-                          .then((_) {
-                        ref.read(getBookByIdProvider(book.id));
-                      });
+                          .then(
+                        (_) {
+                          ref.invalidate(
+                            getBookByIdProvider(
+                              book.id,
+                            ),
+                          );
+                        },
+                      );
                     },
-                  )
+                  ),
                 },
               ),
               if (downloadProgress < 1.0)
@@ -83,8 +93,13 @@ class BookDetailPage extends ConsumerWidget {
                 ElevatedButton(
                   child: Text('Read book'),
                   onPressed: () {
-                    libraryItemProvider.whenData((libraryItem) async => {
-                          
+                    libraryItemProvider.whenData((libraryItem) => {
+                          GoRouter.of(context).push(
+                            AppRoute.bookReader.path,
+                            extra: {
+                              'libraryItem': libraryItem!,
+                            },
+                          ),
                         });
                   },
                 ),
@@ -92,9 +107,14 @@ class BookDetailPage extends ConsumerWidget {
                 data: (data) {
                   return ElevatedButton(
                       child: Text('Read book'),
-                      onPressed: () {
+                      onPressed: () async {
                         libraryItemProvider.whenData((libraryItem) => {
-                              print(libraryItem!.filePath),
+                              GoRouter.of(context).push(
+                                AppRoute.bookReader.path,
+                                extra: {
+                                  'libraryItem': libraryItem!,
+                                },
+                              ),
                             });
                       });
                 },

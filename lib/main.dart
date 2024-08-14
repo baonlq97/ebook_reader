@@ -1,6 +1,7 @@
 import 'package:ebook_reader/common/widgets/scaffold_nav_bar.dart';
 import 'package:ebook_reader/presentations/app_route.dart';
 import 'package:ebook_reader/presentations/pages/book_detail/book_detail.dart';
+import 'package:ebook_reader/presentations/pages/book_reader/book_reader.dart';
 import 'package:ebook_reader/presentations/pages/category/category_page.dart';
 import 'package:ebook_reader/presentations/pages/home/home_page.dart';
 import 'package:ebook_reader/presentations/pages/library/library_page.dart';
@@ -79,6 +80,17 @@ class MyApp extends StatelessWidget {
           final bookId = extra['bookId'];
           return BookDetailPage(
             bookId: bookId,
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoute.bookReader.path,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (BuildContext context, GoRouterState state) {
+          final extra = state.extra as Map<String, dynamic>;
+          final libraryItem = extra['libraryItem'];
+          return BookReaderPage(
+            libraryItem: libraryItem,
           );
         },
       ),
