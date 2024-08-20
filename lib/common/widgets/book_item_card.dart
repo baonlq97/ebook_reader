@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ebook_reader/common/widgets/book_item_shimmer.dart';
 import 'package:ebook_reader/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,19 +49,16 @@ class BookItemCard extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(6.0),
                       child: Container(
                         color: Theme.of(context).colorScheme.surfaceContainer,
-                        child: loadingEffect
-                            ? const Text('Loading effect')
-                            : CachedNetworkImage(
-                                imageUrl: coverImageUrl ?? "",
-                                placeholder: (context, url) => Image.asset(
-                                  Assets.drawable.placeholderCat
-                                      .path,
-                                  fit: BoxFit.cover,
-                                ),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
-                                fit: BoxFit.cover,
-                              ),
+                        child: CachedNetworkImage(
+                          imageUrl: coverImageUrl ?? "",
+                          placeholder: (context, url) => Image.asset(
+                            Assets.drawable.placeholderCat.path,
+                            fit: BoxFit.cover,
+                          ),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
@@ -125,7 +123,7 @@ class BookItemCard extends ConsumerWidget {
                               color: Theme.of(context).colorScheme.onSurface),
                         ),
                       ),
-                       Container(
+                      Container(
                         padding: const EdgeInsets.only(left: 12.0, right: 8.0),
                         child: Text(
                           subjects,

@@ -55,6 +55,7 @@ dependencies:
   archive: ^3.6.1
   epub_view:
     path: epub_view
+  shimmer: ^3.0.0
 
 dependency_overrides:
   intl: ^0.19.0 # multiple_localization 0.3.0 requires intl 0.17.0

@@ -1,4 +1,6 @@
 import 'package:ebook_reader/common/widgets/book_item_card.dart';
+import 'package:ebook_reader/common/widgets/book_item_shimmer.dart';
+import 'package:ebook_reader/common/widgets/book_items_shimmer.dart';
 import 'package:ebook_reader/common/widgets/top_app_bar.dart';
 import 'package:ebook_reader/gen/assets.gen.dart';
 import 'package:ebook_reader/presentations/app_route.dart';
@@ -43,7 +45,10 @@ class HomePage extends ConsumerWidget {
           );
         },
         error: (error, stackTrace) => Text("error"),
-        loading: () => Text("loading"),
+        loading: () => Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: const BookItemsShimmer(),
+        ),
       ),
     );
   }

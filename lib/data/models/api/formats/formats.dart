@@ -6,25 +6,25 @@ part 'formats.g.dart';
 @JsonSerializable()
 class Formats extends Equatable {
   @JsonKey(name: 'text/html')
-  final String textHtml;
+  final String? textHtml;
 
   @JsonKey(name: 'application/epub+zip')
-  final String applicationEpubZip;
+  final String? applicationEpubZip;
 
   @JsonKey(name: 'application/x-mobipocket-ebook')
-  final String applicationXmobiPocketEbook;
+  final String? applicationXmobiPocketEbook;
 
   @JsonKey(name: 'application/rdf+xml')
-  final String applicationRdfXml;
+  final String? applicationRdfXml;
 
   @JsonKey(name: 'image/jpeg')
-  final String imageJpeg;
+  final String? imageJpeg;
 
   @JsonKey(name: 'text/plain; charset=us-ascii')
-  final String textPlainAscii;
+  final String? textPlainAscii;
 
   @JsonKey(name: 'application/octet-stream')
-  final String applicationOctetStream;
+  final String? applicationOctetStream;
 
   const Formats({
     required this.textHtml,

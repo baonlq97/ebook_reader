@@ -24,7 +24,7 @@ class BookDownloader {
   ) async {
     final fileName = Utility.createEpubFileName(book.title);
 
-    String baseUrl = book.formats.applicationEpubZip;
+    String baseUrl = book.formats.applicationEpubZip ?? "";
     String path = await _getTempFilePath(fileName);
 
     final tempFile = File(path);

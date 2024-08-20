@@ -7,14 +7,14 @@ part of 'formats.dart';
 // **************************************************************************
 
 Formats _$FormatsFromJson(Map<String, dynamic> json) => Formats(
-      textHtml: json['text/html'] as String,
-      applicationEpubZip: json['application/epub+zip'] as String,
+      textHtml: json['text/html'] as String?,
+      applicationEpubZip: json['application/epub+zip'] as String?,
       applicationXmobiPocketEbook:
-          json['application/x-mobipocket-ebook'] as String,
-      applicationRdfXml: json['application/rdf+xml'] as String,
-      imageJpeg: json['image/jpeg'] as String,
-      textPlainAscii: json['text/plain; charset=us-ascii'] as String,
-      applicationOctetStream: json['application/octet-stream'] as String,
+          json['application/x-mobipocket-ebook'] as String?,
+      applicationRdfXml: json['application/rdf+xml'] as String?,
+      imageJpeg: json['image/jpeg'] as String?,
+      textPlainAscii: json['text/plain; charset=us-ascii'] as String?,
+      applicationOctetStream: json['application/octet-stream'] as String?,
     );
 
 Map<String, dynamic> _$FormatsToJson(Formats instance) => <String, dynamic>{
