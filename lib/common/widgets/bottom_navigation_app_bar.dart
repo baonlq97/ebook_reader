@@ -23,18 +23,20 @@ class BottomNavigationAppBar extends ConsumerWidget {
           icon: Assets.drawable.icNavHome,
           label: 'Home',
         ),
-        BottomNavigationAppItem(
-          icon: Assets.drawable.icNavCategories,
-          label: 'Categories',
-        ),
+        // Note: will add later
+        // BottomNavigationAppItem(
+        //   icon: Assets.drawable.icNavCategories,
+        //   label: 'Categories',
+        // ),
         BottomNavigationAppItem(
           icon: Assets.drawable.icNavLibrary,
           label: 'Library',
         ),
-        BottomNavigationAppItem(
-          icon: Assets.drawable.icNavSettings,
-          label: 'Settings',
-        ),
+        // Note: will add later
+        // BottomNavigationAppItem(
+        //   icon: Assets.drawable.icNavSettings,
+        //   label: 'Settings',
+        // ),
       ],
       onDestinationSelected: (index) {
         ref.read(bottomNavigationAppBarProvider.notifier).changePage(index);
@@ -65,12 +67,12 @@ class BottomNavigationAppBar extends ConsumerWidget {
     switch (index) {
       case 0:
         GoRouter.of(context).go(AppRoute.home.path);
+      // case 1:
+      //   GoRouter.of(context).go(AppRoute.categories.path);
       case 1:
-        GoRouter.of(context).go(AppRoute.categories.path);
-      case 2:
         GoRouter.of(context).go(AppRoute.library.path);
-      case 3:
-        GoRouter.of(context).go(AppRoute.settings.path);
+      // case 3:
+      //   GoRouter.of(context).go(AppRoute.settings.path);
     }
   }
 }

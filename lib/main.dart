@@ -1,4 +1,6 @@
+import 'package:ebook_reader/common/config/theme_data.dart';
 import 'package:ebook_reader/common/widgets/scaffold_nav_bar.dart';
+import 'package:ebook_reader/common/widgets/transition_factory.dart';
 import 'package:ebook_reader/presentations/app_route.dart';
 import 'package:ebook_reader/presentations/pages/book_detail/book_detail.dart';
 import 'package:ebook_reader/presentations/pages/book_reader/book_reader.dart';
@@ -75,11 +77,27 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: AppRoute.bookDetail.path,
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (BuildContext context, GoRouterState state) {
+        pageBuilder: (context, state) {
           final extra = state.extra as Map<String, dynamic>;
           final bookId = extra['bookId'];
-          return BookDetailPage(
+          final bookDetailPage = BookDetailPage(
             bookId: bookId,
+          );
+          return CustomTransitionPage(
+            child: bookDetailPage,
+            transitionDuration: const Duration(milliseconds: 500),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              return FadeTransition(
+                opacity: Tween<double>(begin: 0.0, end: 1.0).animate(
+                  CurvedAnimation(
+                    parent: animation,
+                    curve: Curves.fastOutSlowIn,
+                  ),
+                ),
+                child: child,
+              );
+            },
           );
         },
       ),
@@ -102,12 +120,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Ebook Reader',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple,
-        ),
-        useMaterial3: true,
-      ),
+      theme: lightTheme,
       routerConfig: _router,
     );
   }

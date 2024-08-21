@@ -47,9 +47,9 @@ class HomePage extends ConsumerWidget {
                 if (index < books.length) {
                   return BookItemCard(
                     title: books[index].title,
-                    author: books[index].authors[0].name,
-                    language: books[index].languages[0],
-                    subjects: books[index].subjects[0],
+                    author: books[index].authors.isNotEmpty ? books[index].authors[0].name : "",
+                    language: books[index].languages.isNotEmpty ? books[index].languages[0] : "",
+                    subjects: books[index].subjects.isNotEmpty ? books[index].subjects[0] : "",
                     coverImageUrl: books[index].formats.imageJpeg,
                     onClick: () => {
                       GoRouter.of(context).push(

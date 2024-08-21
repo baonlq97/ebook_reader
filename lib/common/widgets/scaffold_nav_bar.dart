@@ -27,9 +27,9 @@ class ScaffoldWithNavBar extends ConsumerWidget {
         index: selectedIndex,
         children: const [
           HomePage(),
-          CategoryPage(),
+          // CategoryPage(),
           LibraryPage(),
-          SettingPage(),
+          // SettingPage(),
         ],
       ),
       bottomNavigationBar: const app_bar.BottomNavigationAppBar(),

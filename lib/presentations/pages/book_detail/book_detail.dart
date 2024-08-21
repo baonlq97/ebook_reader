@@ -1,14 +1,14 @@
 import 'package:ebook_reader/common/helper/book/book_util.dart';
-import 'package:ebook_reader/common/provider/book_downloader/book_downloader_provider.dart';
 import 'package:ebook_reader/data/models/database/library_item.dart';
 import 'package:ebook_reader/presentations/app_route.dart';
 import 'package:ebook_reader/presentations/notifiers/book_detail/book_detail_notifier.dart';
+import 'package:ebook_reader/presentations/pages/book_detail/widgets/book_detail_middle_bar.dart';
+import 'package:ebook_reader/presentations/pages/book_detail/widgets/book_detail_top_bar.dart';
+import 'package:ebook_reader/presentations/pages/book_detail/widgets/book_detail_top_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:ebook_reader/common/widgets/book_item_card.dart';
-import 'package:ebook_reader/common/widgets/top_app_bar.dart';
-import 'package:ebook_reader/gen/assets.gen.dart';
 import 'package:go_router/go_router.dart';
 
 class BookDetailPage extends ConsumerWidget {
@@ -21,107 +21,83 @@ class BookDetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final book = ref.watch(getBookDetailProvider(bookId));
-    final downloadProgress = ref.watch(downloadNotifierProvider);
-    final downloader = ref.read(downloadNotifierProvider.notifier);
-    final getBookById = ref.watch(getBookByIdProvider(bookId));
+    final bookDetail = ref.watch(bookDetailProvider);
+    final bookDetailNotifier = ref.read(bookDetailProvider.notifier);
+
+    ref.listen<AsyncValue<BookDetailPageState?>>(bookDetailProvider,
+        (previous, next) {
+      if (next.value?.bookSet == null) {
+        bookDetailNotifier.getBookDetail(bookId);
+      } else if (next.value?.libraryItem == null) {
+        bookDetailNotifier.getBookById(bookId);
+      }
+    });
 
     return Scaffold(
-      appBar: TopAppBar(
-        headerTitle: "Book Detail",
-        iconRes: Assets.drawable.icSearch,
+      appBar: BookDetailTopBar(
+        onBackClick: () {
+          GoRouter.of(context).pop();
+        },
+        onShareClick: () {},
       ),
-      body: book.when(
+      body: bookDetail.when(
         data: (data) {
-          LibraryItem? libraryItem;
-          final book = data!.books.first;
-          final libraryItemProvider = ref.watch(getBookByIdProvider(book.id));
+          if (data == null || data.bookSet == null) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          final book = data.bookSet!.books.first;
+          final buttonText =
+              data.libraryItem != null ? 'Start Reading' : 'Download';
+
           return Column(
             children: [
-              BookItemCard(
-                title: "All books",
-                author: "All books",
-                language: "All books",
-                subjects: "All books",
-                coverImageUrl: "",
-                onClick: () => {
-                  downloader.startDownloading(
-                    context,
-                    book,
-                    (path) {
-                      final insertItemNotifier = ref.watch(
-                        insertItemProvider.notifier,
-                      );
-
-                      insertItemNotifier
-                          .insert(
-                        LibraryItem(
-                          bookId: book.id,
-                          title: book.title,
-                          authors: BookUtil.getAuthorsAsString(
-                            book.authors,
-                          ),
-                          filePath: path,
-                          createdAt: DateTime.now().millisecondsSinceEpoch,
-                        ),
-                      )
-                          .then(
-                        (_) {
-                          ref.invalidate(
-                            getBookByIdProvider(
-                              book.id,
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                },
+              BookDetailTopUI(
+                title: book.title,
+                authors: book.authors.isNotEmpty ? book.authors[0].name : "",
+                currentThemeMode: ThemeMode.light,
+                imageData: book.formats.imageJpeg,
               ),
-              if (downloadProgress < 1.0)
-                Column(
-                  children: [
-                    LinearProgressIndicator(
-                      value: downloadProgress,
-                    ),
-                    Text(
-                      '${downloadProgress * 100}% downloaded',
-                    ),
-                  ],
-                ),
-              if (downloadProgress == 1.0)
-                ElevatedButton(
-                  child: Text('Read book'),
-                  onPressed: () {
-                    libraryItemProvider.whenData((libraryItem) => {
-                          GoRouter.of(context).push(
-                            AppRoute.bookReader.path,
-                            extra: {
-                              'libraryItem': libraryItem!,
-                            },
+              BookDetailMiddleBar(
+                bookLang: book.languages[0],
+                buttonText: buttonText,
+                downloadCount: "100",
+                onButtonClick: () {
+                  if (buttonText == 'Start Reading') {
+                    GoRouter.of(context).push(
+                      AppRoute.bookReader.path,
+                      extra: {
+                        'libraryItem': data.libraryItem,
+                      },
+                    );
+                  } else {
+                    bookDetailNotifier.startDownloading(
+                      context,
+                      book,
+                      (path) {
+                        bookDetailNotifier
+                            .insert(
+                          LibraryItem(
+                            bookId: book.id,
+                            title: book.title,
+                            authors: BookUtil.getAuthorsAsString(
+                              book.authors,
+                            ),
+                            filePath: path,
+                            createdAt: DateTime.now().millisecondsSinceEpoch,
                           ),
+                        )
+                            .then((_) {
+                          bookDetailNotifier.getBookById(bookId);
                         });
-                  },
-                ),
-              getBookById.when(
-                data: (data) {
-                  return ElevatedButton(
-                      child: Text('Read book'),
-                      onPressed: () async {
-                        libraryItemProvider.whenData((libraryItem) => {
-                              GoRouter.of(context).push(
-                                AppRoute.bookReader.path,
-                                extra: {
-                                  'libraryItem': libraryItem!,
-                                },
-                              ),
-                            });
-                      });
+                      },
+                    );
+                  }
                 },
-                error: (error, stackTrace) => const Icon(Icons.error),
-                loading: () => const Center(
-                  child: CircularProgressIndicator(),
-                ),
+                pageCount: "100",
+                progressValue: bookDetail.value!.downloadProgress,
+                showProgressBar: bookDetail.value!.downloadProgress > 0 &&
+                    bookDetail.value!.downloadProgress < 1.0,
               )
             ],
           );
