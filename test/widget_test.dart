@@ -36,12 +36,12 @@ void main() {
         findsOneWidget);
     expect(
         find.byWidgetPredicate((widget) =>
-            widget is TopAppBar && widget.headerTitle == 'Categories'),
+            widget is TopAppBar && widget.headerTitle == 'Library'),
         findsNothing);
 
     await tester.tap(
       find.byWidgetPredicate((widget) =>
-          widget is NavigationDestination && widget.label == 'Categories'),
+          widget is NavigationDestination && widget.label == 'Library'),
     );
 
     await tester.pump();
@@ -52,7 +52,7 @@ void main() {
         findsNothing);
     expect(
         find.byWidgetPredicate((widget) =>
-            widget is TopAppBar && widget.headerTitle == 'Categories'),
+            widget is TopAppBar && widget.headerTitle == 'Library'),
         findsOneWidget);
   });
 }
