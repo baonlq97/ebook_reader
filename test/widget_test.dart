@@ -13,7 +13,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:ebook_reader/main.dart';
 
 void main() {
-  testWidgets('Wait and press categories button test',
+  testWidgets('Wait and press library button test',
       (WidgetTester tester) async {
     await tester.pumpWidget(
       ProviderScope(

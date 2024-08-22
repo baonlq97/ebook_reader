@@ -17,4 +17,4 @@ jobs:
         with:
           flutter-version: 3.22.2
       - run: flutter pub get
-      - run: flutter test
+      - run: flutter test -j 1 -r github

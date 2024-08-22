@@ -25,7 +25,6 @@ class HomeNotifier extends _$HomeNotifier {
   Future<HomeState> build() async {
     // Initial fetch
     state = const AsyncLoading();
-    
     final bookSet = await _fetchBooks(currentPage);
     return HomeState(bookSet: bookSet);
   }
@@ -80,21 +79,3 @@ class HomeNotifier extends _$HomeNotifier {
     return data!;
   }
 }
-
-// @riverpod
-// Future<BookSet?> getAllBooks(GetAllBooksRef ref, int page) async {
-//   final repository = ref.watch(bookRepositoryProvider);
-//   final dataState = await repository.getAllBooks(page);
-
-//   BookSet? data;
-
-//   if (dataState is DataSuccess && dataState.data != null) {
-//     data = dataState.data!;
-//   }
-
-//   if (dataState is DataFailed) {
-//     throw dataState.error!;
-//   }
-
-//   return data;
-// }
