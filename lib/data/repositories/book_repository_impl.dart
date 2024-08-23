@@ -13,6 +13,8 @@ abstract class BookRepository {
   Future<DataState<BookSet>> getBookDetail(int bookId);
   Future<void> insert(LibraryItem item);
   Future<LibraryItem?> getItemById(int bookId);
+  Future<List<LibraryItem?>> getAllItems();
+  Future<void> delete(LibraryItem item);
 }
 
 class BookRepositoryImpl implements BookRepository {
@@ -76,6 +78,26 @@ class BookRepositoryImpl implements BookRepository {
   Future<LibraryItem?> getItemById(int bookId) async {
     try {
       return await dbService.getItemById(bookId);
+    }
+    catch (ex) {
+      throw ex;
+    }
+  }
+  
+  @override
+  Future<List<LibraryItem?>> getAllItems() async {
+    try {
+      return await dbService.getAllItems();
+    }
+    catch (ex) {
+      throw ex;
+    }
+  }
+  
+  @override
+  Future<void> delete(LibraryItem item) async {
+    try {
+      await dbService.delete(item);
     }
     catch (ex) {
       throw ex;

@@ -24,6 +24,11 @@ class BookReaderPageState extends State<BookReaderPage> {
 
   @override
   void initState() {
+    super.initState();
+    _loadEpub();
+  }
+
+  void _loadEpub() {
     _epubReaderController = EpubController(
       document: EpubDocument.openFile(
         File.fromUri(
@@ -31,7 +36,6 @@ class BookReaderPageState extends State<BookReaderPage> {
         ),
       ),
     );
-    super.initState();
   }
 
   @override

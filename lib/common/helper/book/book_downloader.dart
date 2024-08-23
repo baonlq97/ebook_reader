@@ -19,6 +19,7 @@ class BookDownloader {
   Future<void> startDownloading(
     BuildContext context,
     Book book,
+    CancelToken cancelToken,
     Function(int, int) onReceiveProgress,
     Function(String) onSuccess,
   ) async {
@@ -34,6 +35,7 @@ class BookDownloader {
           .download(
         baseUrl,
         path,
+        cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
         deleteOnError: true,
       )

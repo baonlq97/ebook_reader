@@ -21,4 +21,16 @@ class BookDbService {
         isarDB.libraryItems.filter().bookIdEqualTo(bookId).findFirst();
     return item;
   }
+
+  Future<List<LibraryItem?>> getAllItems() async {
+    return isarDB.libraryItems.where().findAll();
+  }
+
+  Future<void> delete(LibraryItem item) async {
+    await isarDB.writeTxn(
+      () async {
+        await isarDB.libraryItems.delete(item.id);
+      },
+    );
+  }
 }

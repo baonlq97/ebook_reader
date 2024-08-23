@@ -7,12 +7,12 @@ part of 'bottom_navigation_app_bar_provider.dart';
 // **************************************************************************
 
 String _$bottomNavigationAppBarHash() =>
-    r'db8d4154691e857f430f04b253d3146612b5a2ad';
+    r'c8974ecf3b5e3da536cf87cde21d5dd41049c488';
 
 /// See also [BottomNavigationAppBar].
 @ProviderFor(BottomNavigationAppBar)
-final bottomNavigationAppBarProvider =
-    AutoDisposeNotifierProvider<BottomNavigationAppBar, int>.internal(
+final bottomNavigationAppBarProvider = AutoDisposeNotifierProvider<
+    BottomNavigationAppBar, BottomNavState>.internal(
   BottomNavigationAppBar.new,
   name: r'bottomNavigationAppBarProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +22,6 @@ final bottomNavigationAppBarProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$BottomNavigationAppBar = AutoDisposeNotifier<int>;
+typedef _$BottomNavigationAppBar = AutoDisposeNotifier<BottomNavState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

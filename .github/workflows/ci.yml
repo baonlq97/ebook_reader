@@ -16,5 +16,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: 3.22.2
-      - run: flutter pub get
-      - run: flutter test -j 1 -r github
+      - name: Run pub get
+        run: flutter pub get
+      - name: Run all test
+        run: flutter test -j 1 -r github

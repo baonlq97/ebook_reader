@@ -36,7 +36,7 @@ class BookDetailMiddleBar extends StatelessWidget {
                 borderRadius: BorderRadius.circular(40.0),
                 child: LinearProgressIndicator(
                   value: progressValue > 0 ? progressValue : null,
-                  minHeight: 16.0,
+                  minHeight: 8.0,
                   color: Theme.of(context).colorScheme.secondary,
                   backgroundColor: Theme.of(context)
                       .colorScheme
@@ -56,19 +56,19 @@ class BookDetailMiddleBar extends StatelessWidget {
               borderRadius: BorderRadius.circular(16.0),
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _buildInfoColumn(
                   context,
                   Icons.language,
                   bookLang,
                 ),
-                _buildVerticalDivider(context),
-                _buildInfoColumn(
-                  context,
-                  Icons.book,
-                  pageCount,
-                ),
+                // _buildVerticalDivider(context),
+                // _buildInfoColumn(
+                //   context,
+                //   Icons.book,
+                //   pageCount,
+                // ),
                 _buildVerticalDivider(context),
                 _buildInfoColumn(
                   context,

@@ -38,10 +38,11 @@ ParseParagraphsResult parseParagraphs(
 ) {
   String? filename = '';
   final List<int> chapterIndexes = [];
-  final paragraphs = chapters.fold<List<Paragraph>>(
-    [],
+  final List<Paragraph> paragraphs = chapters.fold(
+    <Paragraph>[],
     (tempParagraphs, chapter) {
       List<dom.Element> elmList = [];
+
       if (filename != chapter.ContentFileName) {
         filename = chapter.ContentFileName;
         final document = EpubCfiReader().chapterDocument(chapter);
@@ -52,29 +53,23 @@ ParseParagraphsResult parseParagraphs(
       }
 
       if (chapter.Anchor == null) {
-        // last element from document index as chapter index
         chapterIndexes.add(tempParagraphs.length);
-        tempParagraphs.addAll(elmList
-            .map((element) => Paragraph(element, chapterIndexes.length - 1)));
-        return tempParagraphs;
       } else {
         final index = elmList.indexWhere(
-          (elm) => elm.outerHtml.contains(
-            'id="${chapter.Anchor}"',
-          ),
+          (elm) => elm.attributes['id'] == chapter.Anchor,
         );
         if (index == -1) {
           chapterIndexes.add(tempParagraphs.length);
-          tempParagraphs.addAll(elmList
-              .map((element) => Paragraph(element, chapterIndexes.length - 1)));
-          return tempParagraphs;
+        } else {
+          chapterIndexes.add(tempParagraphs.length + index);
         }
-
-        chapterIndexes.add(tempParagraphs.length);
-        tempParagraphs.addAll(elmList
-            .map((element) => Paragraph(element, chapterIndexes.length - 1)));
-        return tempParagraphs;
       }
+
+      tempParagraphs.addAll(
+        elmList.map((element) => Paragraph(element, chapterIndexes.last)),
+      );
+
+      return tempParagraphs;
     },
   );
 

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:ebook_reader/common/helper/book/book_util.dart';
 import 'package:ebook_reader/data/models/database/library_item.dart';
 import 'package:ebook_reader/presentations/app_route.dart';
@@ -28,7 +29,8 @@ class BookDetailPage extends ConsumerWidget {
         (previous, next) {
       if (next.value?.bookSet == null) {
         bookDetailNotifier.getBookDetail(bookId);
-      } else if (next.value?.libraryItem == null) {
+      }
+      else if (previous?.value?.bookSet == null && next.value?.bookSet != null) {
         bookDetailNotifier.getBookById(bookId);
       }
     });
@@ -47,8 +49,10 @@ class BookDetailPage extends ConsumerWidget {
           }
 
           final book = data.bookSet!.books.first;
-          final buttonText =
-              data.libraryItem != null ? 'Start Reading' : 'Download';
+          final isDownloading = data.isDownloading ?? false;
+          final buttonText = isDownloading
+              ? 'Cancel'
+              : (data.libraryItem != null ? 'Start Reading' : 'Download');
 
           return Column(
             children: [
@@ -59,9 +63,9 @@ class BookDetailPage extends ConsumerWidget {
                 imageData: book.formats.imageJpeg,
               ),
               BookDetailMiddleBar(
-                bookLang: book.languages[0],
+                bookLang: book.languages[0].toUpperCase(),
                 buttonText: buttonText,
-                downloadCount: "100",
+                downloadCount: book.downloadCount.toString(),
                 onButtonClick: () {
                   if (buttonText == 'Start Reading') {
                     GoRouter.of(context).push(
@@ -70,34 +74,31 @@ class BookDetailPage extends ConsumerWidget {
                         'libraryItem': data.libraryItem,
                       },
                     );
-                  } else {
-                    bookDetailNotifier.startDownloading(
-                      context,
-                      book,
-                      (path) {
-                        bookDetailNotifier
-                            .insert(
-                          LibraryItem(
-                            bookId: book.id,
-                            title: book.title,
-                            authors: BookUtil.getAuthorsAsString(
-                              book.authors,
-                            ),
-                            filePath: path,
-                            createdAt: DateTime.now().millisecondsSinceEpoch,
+                  } else if (buttonText == 'Download') {
+                    bookDetailNotifier.startDownloading(context, book, (path) {
+                      bookDetailNotifier
+                          .insert(
+                        LibraryItem(
+                          bookId: book.id,
+                          title: book.title,
+                          authors: BookUtil.getAuthorsAsString(
+                            book.authors,
                           ),
-                        )
-                            .then((_) {
-                          bookDetailNotifier.getBookById(bookId);
-                        });
-                      },
-                    );
+                          filePath: path,
+                          createdAt: DateTime.now().millisecondsSinceEpoch,
+                        ),
+                      )
+                          .then((_) {
+                        bookDetailNotifier.getBookById(bookId);
+                      });
+                    });
+                  } else {
+                    bookDetailNotifier.cancelDownload();
                   }
                 },
-                pageCount: "100",
+                pageCount: book.mediaType,
                 progressValue: bookDetail.value!.downloadProgress,
-                showProgressBar: bookDetail.value!.downloadProgress > 0 &&
-                    bookDetail.value!.downloadProgress < 1.0,
+                showProgressBar: isDownloading,
               )
             ],
           );

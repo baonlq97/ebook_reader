@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
@@ -16,12 +18,14 @@ part 'book_detail_notifier.g.dart';
 class BookDetailPageState {
   final BookSet? bookSet;
   final double downloadProgress;
+  final bool isDownloading;
   final LibraryItem? libraryItem;
   final AsyncValue<void> insertState;
 
-  BookDetailPageState({
+  const BookDetailPageState({
     this.bookSet,
     this.downloadProgress = 0,
+    this.isDownloading = false,
     this.libraryItem,
     this.insertState = const AsyncData(null),
   });
@@ -29,32 +33,46 @@ class BookDetailPageState {
   BookDetailPageState copyWith({
     BookSet? bookSet,
     double? downloadProgress,
+    bool? isDownloading,
     LibraryItem? libraryItem,
     AsyncValue<void>? insertState,
   }) {
     return BookDetailPageState(
       bookSet: bookSet ?? this.bookSet,
       downloadProgress: downloadProgress ?? this.downloadProgress,
+      isDownloading: isDownloading ?? this.isDownloading,
       libraryItem: libraryItem ?? this.libraryItem,
       insertState: insertState ?? this.insertState,
     );
   }
+
+  // @override
+  // List<Object?> get props {
+  //   return [
+  //     bookSet,
+  //     downloadProgress,
+  //     libraryItem,
+  //     insertState,
+  //     cancelDownloadToken,
+  //   ];
+  // }
 }
 
 @riverpod
 class BookDetail extends _$BookDetail {
+  CancelToken? _cancelToken;
+
   @override
   Future<BookDetailPageState?> build() async {
-    return BookDetailPageState();
+    return const BookDetailPageState();
   }
 
   Future<void> getBookDetail(int bookId) async {
-    // state = const AsyncLoading();
     final repository = ref.read(bookRepositoryProvider);
     final dataState = await repository.getBookDetail(bookId);
 
     if (dataState is DataSuccess && dataState.data != null) {
-      state = AsyncData(state.value!.copyWith(
+      state = AsyncData(state.value?.copyWith(
         bookSet: dataState.data!,
       ));
     } else if (dataState is DataFailed) {
@@ -63,16 +81,17 @@ class BookDetail extends _$BookDetail {
   }
 
   Future<void> insert(LibraryItem item) async {
-    // state = const AsyncLoading();
     final repository = ref.read(bookRepositoryProvider);
     await repository.insert(item);
-    state = AsyncData(state.value!.copyWith(libraryItem: item));
+    state = AsyncData(state.value?.copyWith(libraryItem: item));
   }
 
   Future<void> getBookById(int bookId) async {
     final repository = ref.read(bookRepositoryProvider);
     final libraryItem = await repository.getItemById(bookId);
-    state = AsyncData(state.value?.copyWith(libraryItem: libraryItem));
+    if (libraryItem != null) {
+      state = AsyncData(state.value?.copyWith(libraryItem: libraryItem));
+    }
   }
 
   Future<void> startDownloading(
@@ -81,16 +100,42 @@ class BookDetail extends _$BookDetail {
     Function(String) onSuccess,
   ) async {
     final bookDownloader = ref.read(bookDownloaderProvider);
+
+    _cancelToken = CancelToken();
+
+    state = AsyncData(
+      state.value?.copyWith(
+        isDownloading: true,
+        downloadProgress: 0
+      ),
+    );
+
     await bookDownloader.startDownloading(
       context,
       book,
+      _cancelToken!,
       (receivedBytes, totalBytes) {
         final downloadProgress =
             (totalBytes > 0 ? receivedBytes / totalBytes : 0).toDouble();
         state = AsyncData(
             state.value?.copyWith(downloadProgress: downloadProgress));
       },
-      onSuccess,
+      (path) {
+        state = AsyncData(
+          state.value?.copyWith(
+            isDownloading: false,
+          ),
+        );
+        onSuccess(path);
+      },
     );
+  }
+
+  void cancelDownload() {
+    _cancelToken!.cancel();
+    _cancelToken = null;
+    state = AsyncData(state.value?.copyWith(
+      isDownloading: false,
+    ));
   }
 }

@@ -6,7 +6,7 @@ part of 'book_detail_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$bookDetailHash() => r'63a4d387db2d78e2aa5ecf6be5097e70d837dff1';
+String _$bookDetailHash() => r'e08d0108be02f66e9fbeb9e6a10f40b33ab9d86c';
 
 /// See also [BookDetail].
 @ProviderFor(BookDetail)

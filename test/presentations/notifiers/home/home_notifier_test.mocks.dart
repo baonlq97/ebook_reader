@@ -111,6 +111,26 @@ class MockBookRepository extends _i1.Mock implements _i4.BookRepository {
         ),
         returnValue: _i5.Future<_i7.LibraryItem?>.value(),
       ) as _i5.Future<_i7.LibraryItem?>);
+
+  @override
+  _i5.Future<List<_i7.LibraryItem?>> getAllItems() => (super.noSuchMethod(
+        Invocation.method(
+          #getAllItems,
+          [],
+        ),
+        returnValue:
+            _i5.Future<List<_i7.LibraryItem?>>.value(<_i7.LibraryItem?>[]),
+      ) as _i5.Future<List<_i7.LibraryItem?>>);
+
+  @override
+  _i5.Future<void> delete(_i7.LibraryItem? item) => (super.noSuchMethod(
+        Invocation.method(
+          #delete,
+          [item],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 }
 
 /// A class which mocks [BookSet].
