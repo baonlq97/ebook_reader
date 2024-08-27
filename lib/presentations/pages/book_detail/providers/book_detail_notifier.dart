@@ -45,17 +45,6 @@ class BookDetailPageState {
       insertState: insertState ?? this.insertState,
     );
   }
-
-  // @override
-  // List<Object?> get props {
-  //   return [
-  //     bookSet,
-  //     downloadProgress,
-  //     libraryItem,
-  //     insertState,
-  //     cancelDownloadToken,
-  //   ];
-  // }
 }
 
 @riverpod

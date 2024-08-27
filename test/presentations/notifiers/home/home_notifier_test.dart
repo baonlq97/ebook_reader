@@ -6,7 +6,7 @@ import 'package:ebook_reader/data/models/api/formats/formats.dart';
 import 'package:ebook_reader/data/models/api/translator/translator.dart';
 import 'package:ebook_reader/data/repositories/book_repository_impl.dart';
 import 'package:ebook_reader/di/providers/book_repository/book_repository_provider.dart';
-import 'package:ebook_reader/presentations/notifiers/home/home_notifier.dart';
+import 'package:ebook_reader/presentations/pages/home/providers/home_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';

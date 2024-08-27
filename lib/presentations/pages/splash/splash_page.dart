@@ -1,6 +1,6 @@
 import 'package:ebook_reader/gen/assets.gen.dart';
 import 'package:ebook_reader/presentations/app_route.dart';
-import 'package:ebook_reader/presentations/notifiers/splash/splash_notifier.dart';
+import 'package:ebook_reader/presentations/pages/splash/providers/splash_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

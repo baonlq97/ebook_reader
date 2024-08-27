@@ -5,18 +5,19 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i5;
 
+import 'package:dio/dio.dart' as _i7;
 import 'package:ebook_reader/common/resources/data_state.dart' as _i2;
-import 'package:ebook_reader/data/models/api/author/author.dart' as _i10;
-import 'package:ebook_reader/data/models/api/book/book.dart' as _i8;
+import 'package:ebook_reader/data/models/api/author/author.dart' as _i11;
+import 'package:ebook_reader/data/models/api/book/book.dart' as _i9;
 import 'package:ebook_reader/data/models/api/book_set/book_set.dart' as _i6;
 import 'package:ebook_reader/data/models/api/formats/formats.dart' as _i3;
 import 'package:ebook_reader/data/models/api/translator/translator.dart'
-    as _i11;
-import 'package:ebook_reader/data/models/database/library_item.dart' as _i7;
+    as _i12;
+import 'package:ebook_reader/data/models/database/library_item.dart' as _i8;
 import 'package:ebook_reader/data/repositories/book_repository_impl.dart'
     as _i4;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i9;
+import 'package:mockito/src/dummies.dart' as _i10;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -94,7 +95,33 @@ class MockBookRepository extends _i1.Mock implements _i4.BookRepository {
       ) as _i5.Future<_i2.DataState<_i6.BookSet>>);
 
   @override
-  _i5.Future<void> insert(_i7.LibraryItem? item) => (super.noSuchMethod(
+  _i5.Future<_i2.DataState<_i6.BookSet>> searchBooks(
+    _i7.CancelToken? cancelToken,
+    String? query,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #searchBooks,
+          [
+            cancelToken,
+            query,
+          ],
+        ),
+        returnValue: _i5.Future<_i2.DataState<_i6.BookSet>>.value(
+            _FakeDataState_0<_i6.BookSet>(
+          this,
+          Invocation.method(
+            #searchBooks,
+            [
+              cancelToken,
+              query,
+            ],
+          ),
+        )),
+      ) as _i5.Future<_i2.DataState<_i6.BookSet>>);
+
+  @override
+  _i5.Future<void> insert(_i8.LibraryItem? item) => (super.noSuchMethod(
         Invocation.method(
           #insert,
           [item],
@@ -104,26 +131,26 @@ class MockBookRepository extends _i1.Mock implements _i4.BookRepository {
       ) as _i5.Future<void>);
 
   @override
-  _i5.Future<_i7.LibraryItem?> getItemById(int? bookId) => (super.noSuchMethod(
+  _i5.Future<_i8.LibraryItem?> getItemById(int? bookId) => (super.noSuchMethod(
         Invocation.method(
           #getItemById,
           [bookId],
         ),
-        returnValue: _i5.Future<_i7.LibraryItem?>.value(),
-      ) as _i5.Future<_i7.LibraryItem?>);
+        returnValue: _i5.Future<_i8.LibraryItem?>.value(),
+      ) as _i5.Future<_i8.LibraryItem?>);
 
   @override
-  _i5.Future<List<_i7.LibraryItem?>> getAllItems() => (super.noSuchMethod(
+  _i5.Future<List<_i8.LibraryItem?>> getAllItems() => (super.noSuchMethod(
         Invocation.method(
           #getAllItems,
           [],
         ),
         returnValue:
-            _i5.Future<List<_i7.LibraryItem?>>.value(<_i7.LibraryItem?>[]),
-      ) as _i5.Future<List<_i7.LibraryItem?>>);
+            _i5.Future<List<_i8.LibraryItem?>>.value(<_i8.LibraryItem?>[]),
+      ) as _i5.Future<List<_i8.LibraryItem?>>);
 
   @override
-  _i5.Future<void> delete(_i7.LibraryItem? item) => (super.noSuchMethod(
+  _i5.Future<void> delete(_i8.LibraryItem? item) => (super.noSuchMethod(
         Invocation.method(
           #delete,
           [item],
@@ -148,10 +175,10 @@ class MockBookSet extends _i1.Mock implements _i6.BookSet {
       ) as int);
 
   @override
-  List<_i8.Book> get books => (super.noSuchMethod(
+  List<_i9.Book> get books => (super.noSuchMethod(
         Invocation.getter(#books),
-        returnValue: <_i8.Book>[],
-      ) as List<_i8.Book>);
+        returnValue: <_i9.Book>[],
+      ) as List<_i9.Book>);
 
   @override
   List<Object?> get props => (super.noSuchMethod(
@@ -172,7 +199,7 @@ class MockBookSet extends _i1.Mock implements _i6.BookSet {
 /// A class which mocks [Book].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockBook extends _i1.Mock implements _i8.Book {
+class MockBook extends _i1.Mock implements _i9.Book {
   MockBook() {
     _i1.throwOnMissingStub(this);
   }
@@ -186,23 +213,23 @@ class MockBook extends _i1.Mock implements _i8.Book {
   @override
   String get title => (super.noSuchMethod(
         Invocation.getter(#title),
-        returnValue: _i9.dummyValue<String>(
+        returnValue: _i10.dummyValue<String>(
           this,
           Invocation.getter(#title),
         ),
       ) as String);
 
   @override
-  List<_i10.Author> get authors => (super.noSuchMethod(
+  List<_i11.Author> get authors => (super.noSuchMethod(
         Invocation.getter(#authors),
-        returnValue: <_i10.Author>[],
-      ) as List<_i10.Author>);
+        returnValue: <_i11.Author>[],
+      ) as List<_i11.Author>);
 
   @override
-  List<_i11.Translator> get translators => (super.noSuchMethod(
+  List<_i12.Translator> get translators => (super.noSuchMethod(
         Invocation.getter(#translators),
-        returnValue: <_i11.Translator>[],
-      ) as List<_i11.Translator>);
+        returnValue: <_i12.Translator>[],
+      ) as List<_i12.Translator>);
 
   @override
   List<String> get subjects => (super.noSuchMethod(
@@ -231,7 +258,7 @@ class MockBook extends _i1.Mock implements _i8.Book {
   @override
   String get mediaType => (super.noSuchMethod(
         Invocation.getter(#mediaType),
-        returnValue: _i9.dummyValue<String>(
+        returnValue: _i10.dummyValue<String>(
           this,
           Invocation.getter(#mediaType),
         ),

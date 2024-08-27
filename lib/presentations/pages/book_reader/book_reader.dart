@@ -1,14 +1,13 @@
 import 'dart:io';
 
 import 'package:ebook_reader/data/models/database/library_item.dart';
-import 'package:ebook_reader/presentations/notifiers/book_detail/book_detail_notifier.dart';
-import 'package:ebook_reader/presentations/notifiers/book_reader/book_reader.dart';
+import 'package:ebook_reader/presentations/pages/book_reader/providers/book_reader.dart';
 import 'package:epub_view/epub_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:internet_file/internet_file.dart';
+import 'package:logger/logger.dart';
 
-class BookReaderPage extends StatefulWidget {
+class BookReaderPage extends ConsumerStatefulWidget {
   final LibraryItem libraryItem;
   const BookReaderPage({
     super.key,
@@ -16,10 +15,10 @@ class BookReaderPage extends StatefulWidget {
   });
 
   @override
-  State<BookReaderPage> createState() => BookReaderPageState();
+  ConsumerState<BookReaderPage> createState() => BookReaderPageState();
 }
 
-class BookReaderPageState extends State<BookReaderPage> {
+class BookReaderPageState extends ConsumerState<BookReaderPage> {
   late EpubController _epubReaderController;
 
   @override
@@ -40,15 +39,14 @@ class BookReaderPageState extends State<BookReaderPage> {
 
   @override
   Widget build(BuildContext context) {
+    final currentIndex = ref.watch(bookReaderProvider);
     return Scaffold(
       appBar: AppBar(
         // Show actual chapter name
         title: EpubViewActualChapter(
           controller: _epubReaderController,
           builder: (chapterValue) => Text(
-            'Chapter: ' +
-                (chapterValue?.chapter?.Title?.replaceAll('\n', '').trim() ??
-                    ''),
+            chapterValue?.chapter?.Title?.replaceAll('\n', '').trim() ?? 'N/A',
             textAlign: TextAlign.start,
             maxLines: 2,
           ),
@@ -59,20 +57,22 @@ class BookReaderPageState extends State<BookReaderPage> {
         child: EpubViewTableOfContents(
           controller: _epubReaderController,
           // itemBuilder: (context, index, chapter, itemCount) {
-          //   // final currentIndex = ref.read(bookReaderProvider);
           //   if (chapter.type == 'chapter') {
           //     return GestureDetector(
           //       child: Text(
           //         chapter.title!,
-          //         // style: TextStyle(
-          //         //   color: currentIndex == index
-          //         //       ? Colors.red
-          //         //       : Colors.black,
-          //         // ),
+          //         style: TextStyle(
+          //           color: currentIndex == chapter.startIndex ? Colors.red : Colors.black,
+          //           fontFamily: Assets.fonts.figeronaMedium,
+          //           fontStyle: FontStyle.normal,
+          //           fontSize: 20.0,
+          //         ),
           //       ),
-          //       onTap: () => _epubReaderController.scrollTo(
-          //         index: chapter.startIndex,
-          //       ),
+          //       onTap: () {
+          //         _epubReaderController.scrollTo(
+          //           index: chapter.startIndex,
+          //         );
+          //       },
           //     );
           //   }
           //   return const SizedBox.shrink();
@@ -83,14 +83,18 @@ class BookReaderPageState extends State<BookReaderPage> {
         builder: (context) {
           return EpubView(
             controller: _epubReaderController,
-            onDocumentError: (error) => print(error),
+            onDocumentError: (error) => Logger(
+              filter: ProductionFilter(),
+            ).e(error),
             onChapterChanged: (value) => {
-              // ref.read(bookReaderProvider.notifier).setCurrentIndex(value!.position.index),
+              ref
+                  .read(bookReaderProvider.notifier)
+                  .setCurrentIndex(value!.chapterNumber),
               if (Scaffold.of(context).isDrawerOpen)
                 {Navigator.of(context).pop()},
             },
           );
-        }
+        },
       ),
     );
   }

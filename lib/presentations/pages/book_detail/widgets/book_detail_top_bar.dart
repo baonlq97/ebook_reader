@@ -32,21 +32,22 @@ class BookDetailTopBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       automaticallyImplyLeading: false,
       centerTitle: true,
-      actions: [
-        GestureDetector(
-          onTap: onBackClick,
-          child: Container(
-            margin: const EdgeInsets.only(right: 16.0),
-            width: 50.0,
-            height: 50.0,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.25),
-            ),
-            child: const Icon(Icons.share),
-          ),
-        ),
-      ],
+      // TODO: will do later
+      // actions: [
+      //   GestureDetector(
+      //     onTap: () {},
+      //     child: Container(
+      //       margin: const EdgeInsets.only(right: 16.0),
+      //       width: 50.0,
+      //       height: 50.0,
+      //       decoration: BoxDecoration(
+      //         shape: BoxShape.circle,
+      //         color: Theme.of(context).colorScheme.onSurface.withOpacity(0.25),
+      //       ),
+      //       child: const Icon(Icons.share),
+      //     ),
+      //   ),
+      // ],
     );
   }
 

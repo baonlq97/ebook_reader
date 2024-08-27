@@ -19,4 +19,9 @@ abstract class BookApiService {
   Future<HttpResponse<BookSet>> getBookDetail({
     @Query('ids') required int bookId,
   });
+
+  @GET("/books")
+  Future<HttpResponse<BookSet>> searchBooks(@CancelRequest() CancelToken cancelToken, {
+    @Query('search') required String query,
+  });
 }

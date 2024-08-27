@@ -1,7 +1,5 @@
-import 'package:cosmos_epub/cosmos_epub.dart';
 import 'package:ebook_reader/common/config/theme_data.dart';
 import 'package:ebook_reader/common/widgets/scaffold_nav_bar.dart';
-import 'package:ebook_reader/common/widgets/transition_factory.dart';
 import 'package:ebook_reader/presentations/app_route.dart';
 import 'package:ebook_reader/presentations/pages/book_detail/book_detail.dart';
 import 'package:ebook_reader/presentations/pages/book_reader/book_reader.dart';
@@ -23,7 +21,6 @@ final GlobalKey<NavigatorState> _shellNavigatorKey =
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Isar.initializeIsarCore();
-  await CosmosEpub.initialize();
   runApp(ProviderScope(child: MyApp()));
 }
 

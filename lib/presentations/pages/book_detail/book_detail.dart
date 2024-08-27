@@ -1,15 +1,13 @@
-import 'package:dio/dio.dart';
 import 'package:ebook_reader/common/helper/book/book_util.dart';
 import 'package:ebook_reader/data/models/database/library_item.dart';
 import 'package:ebook_reader/presentations/app_route.dart';
-import 'package:ebook_reader/presentations/notifiers/book_detail/book_detail_notifier.dart';
+import 'package:ebook_reader/presentations/pages/book_detail/providers/book_detail_notifier.dart';
 import 'package:ebook_reader/presentations/pages/book_detail/widgets/book_detail_middle_bar.dart';
 import 'package:ebook_reader/presentations/pages/book_detail/widgets/book_detail_top_bar.dart';
 import 'package:ebook_reader/presentations/pages/book_detail/widgets/book_detail_top_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:ebook_reader/common/widgets/book_item_card.dart';
 import 'package:go_router/go_router.dart';
 
 class BookDetailPage extends ConsumerWidget {

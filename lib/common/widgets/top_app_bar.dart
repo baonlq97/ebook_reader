@@ -6,12 +6,14 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String headerTitle;
   final String iconRes;
   final bool isShowTranslate;
+  final void Function()? onSearchPressed;
 
   const TopAppBar({
     super.key,
     required this.headerTitle,
     required this.iconRes,
-    this.isShowTranslate = true,
+    this.isShowTranslate = false, // TODO: will do later,
+    this.onSearchPressed,
   });
 
   @override
@@ -33,7 +35,7 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
         IconButton(
-          onPressed: () {},
+          onPressed: onSearchPressed,
           icon: SvgPicture.asset(iconRes),
         ),
       ],

@@ -38,38 +38,43 @@ ParseParagraphsResult parseParagraphs(
 ) {
   String? filename = '';
   final List<int> chapterIndexes = [];
-  final List<Paragraph> paragraphs = chapters.fold(
-    <Paragraph>[],
-    (tempParagraphs, chapter) {
+  final paragraphs = chapters.fold<List<Paragraph>>(
+    [],
+    (acc, next) {
       List<dom.Element> elmList = [];
-
-      if (filename != chapter.ContentFileName) {
-        filename = chapter.ContentFileName;
-        final document = EpubCfiReader().chapterDocument(chapter);
+      if (filename != next.ContentFileName) {
+        filename = next.ContentFileName;
+        final document = EpubCfiReader().chapterDocument(next);
         if (document != null) {
           final result = convertDocumentToElements(document);
           elmList = _removeAllDiv(result);
         }
       }
 
-      if (chapter.Anchor == null) {
-        chapterIndexes.add(tempParagraphs.length);
+      if (next.Anchor == null) {
+        // last element from document index as chapter index
+        chapterIndexes.add(acc.length);
+        acc.addAll(elmList
+            .map((element) => Paragraph(element, chapterIndexes.length - 1)));
+        return acc;
       } else {
         final index = elmList.indexWhere(
-          (elm) => elm.attributes['id'] == chapter.Anchor,
+          (elm) => elm.outerHtml.contains(
+            'id="${next.Anchor}"',
+          ),
         );
         if (index == -1) {
-          chapterIndexes.add(tempParagraphs.length);
-        } else {
-          chapterIndexes.add(tempParagraphs.length + index);
+          chapterIndexes.add(acc.length);
+          acc.addAll(elmList
+              .map((element) => Paragraph(element, chapterIndexes.length - 1)));
+          return acc;
         }
+
+        chapterIndexes.add(index + acc.length);
+        acc.addAll(elmList
+            .map((element) => Paragraph(element, chapterIndexes.length - 1)));
+        return acc;
       }
-
-      tempParagraphs.addAll(
-        elmList.map((element) => Paragraph(element, chapterIndexes.last)),
-      );
-
-      return tempParagraphs;
     },
   );
 

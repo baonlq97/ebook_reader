@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:ebook_reader/presentations/notifiers/splash/splash_notifier.dart';
+import 'package:ebook_reader/presentations/pages/splash/providers/splash_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';

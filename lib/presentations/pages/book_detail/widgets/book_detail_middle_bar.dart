@@ -63,6 +63,7 @@ class BookDetailMiddleBar extends StatelessWidget {
                   Icons.language,
                   bookLang,
                 ),
+                // TODO: will add later
                 // _buildVerticalDivider(context),
                 // _buildInfoColumn(
                 //   context,
