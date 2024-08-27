@@ -52,7 +52,7 @@ void main() {
 
       // Wait for the state to be updated to data
       await homeNotifier.build(); // To ensure the async operation completes
-      expect(homeNotifier.state, isA<AsyncData<HomeState>>());
+      expect(homeNotifier.state, isA<AsyncData<HomeState?>>());
       expect(homeNotifier.state.value?.bookSet, initialBookSet);
     });
 
@@ -77,7 +77,7 @@ void main() {
 
       // Trigger the initial build
       await homeNotifier.build();
-      expect(homeNotifier.state, isA<AsyncData<HomeState>>());
+      expect(homeNotifier.state, isA<AsyncData<HomeState?>>());
       expect(homeNotifier.state.value?.bookSet, initialBookSet);
       expect(homeNotifier.state.value?.bookSet.books, contains(mockBook));
       expect(
@@ -85,7 +85,7 @@ void main() {
 
       // Trigger fetchMoreBooks
       await homeNotifier.fetchMoreBooks();
-      expect(homeNotifier.state, isA<AsyncData<HomeState>>());
+      expect(homeNotifier.state, isA<AsyncData<HomeState?>>());
       expect(homeNotifier.state.value?.bookSet.books, contains(mockBook2));
       expect(homeNotifier.state.value?.isLoadingMore, false);
     });

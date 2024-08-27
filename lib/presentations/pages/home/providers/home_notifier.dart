@@ -1,7 +1,4 @@
-import 'package:dio/dio.dart';
 import 'package:ebook_reader/common/resources/data_state.dart';
-import 'package:ebook_reader/data/models/api/author/author.dart';
-import 'package:ebook_reader/data/models/api/book/book.dart';
 import 'package:ebook_reader/di/providers/book_repository/book_repository_provider.dart';
 import 'package:ebook_reader/data/models/api/book_set/book_set.dart';
 import 'package:logger/logger.dart';
@@ -12,16 +9,11 @@ part 'home_notifier.g.dart';
 class HomeState {
   final BookSet bookSet;
   final bool isLoadingMore;
-  final bool isSearchActive;
-  final bool isSearching;
-  final BookSet? searchedBookSet;
 
-  HomeState(
-      {required this.bookSet,
-      this.isLoadingMore = false,
-      this.isSearchActive = false,
-      this.isSearching = false,
-      this.searchedBookSet});
+  HomeState({
+    required this.bookSet,
+    this.isLoadingMore = false,
+  });
 
   HomeState copyWith({
     BookSet? bookSet,
@@ -33,9 +25,6 @@ class HomeState {
     return HomeState(
       bookSet: bookSet ?? this.bookSet,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
-      isSearchActive: isSearchActive ?? this.isSearchActive,
-      isSearching: isSearching ?? this.isSearching,
-      searchedBookSet: searchedBookSet ?? this.searchedBookSet,
     );
   }
 }
