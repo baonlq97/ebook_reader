@@ -116,7 +116,7 @@ class HomePageState extends ConsumerState<HomePage> {
                 _debounce = Timer(const Duration(milliseconds: 500), () {
                   _cancelToken = CancelToken();
                   searchNotifier.searchBooks(
-                      _cancelToken!, Uri.encodeQueryComponent(value));
+                      _cancelToken!, value);
                 });
               },
             ),
