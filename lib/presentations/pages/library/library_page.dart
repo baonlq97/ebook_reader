@@ -29,7 +29,7 @@ class LibraryPage extends ConsumerWidget {
     return Scaffold(
       appBar: TopAppBar(
         headerTitle: "Library",
-        iconRes: Assets.drawable.icSearch,
+        iconRes: Assets.drawable.icNavLibrary,
       ),
       body: libraryProvider.when(
         data: (data) {
