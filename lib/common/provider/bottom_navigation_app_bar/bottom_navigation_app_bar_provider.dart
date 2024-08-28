@@ -1,4 +1,3 @@
-import 'package:ebook_reader/presentations/app_route.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'bottom_navigation_app_bar_provider.g.dart';

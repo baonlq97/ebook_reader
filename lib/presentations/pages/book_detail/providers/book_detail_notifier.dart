@@ -1,17 +1,13 @@
 import 'package:dio/dio.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:isar/isar.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:ebook_reader/common/helper/book/book_downloader.dart';
 import 'package:ebook_reader/common/provider/book_downloader/book_downloader_provider.dart';
 import 'package:ebook_reader/common/resources/data_state.dart';
 import 'package:ebook_reader/data/models/api/book/book.dart';
 import 'package:ebook_reader/data/models/api/book_set/book_set.dart';
 import 'package:ebook_reader/data/models/database/library_item.dart';
 import 'package:ebook_reader/di/providers/book_repository/book_repository_provider.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'book_detail_notifier.g.dart';
 

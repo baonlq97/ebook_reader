@@ -1,4 +1,3 @@
-import 'package:ebook_reader/common/widgets/book_item_card.dart';
 import 'package:ebook_reader/common/widgets/book_item_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

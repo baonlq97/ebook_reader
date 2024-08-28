@@ -5,7 +5,6 @@ import 'package:ebook_reader/common/widgets/book_item_card.dart';
 import 'package:ebook_reader/common/widgets/book_items_shimmer.dart';
 import 'package:ebook_reader/common/widgets/search_app_bar.dart';
 import 'package:ebook_reader/common/widgets/top_app_bar.dart';
-import 'package:ebook_reader/data/models/api/book/book.dart';
 import 'package:ebook_reader/gen/assets.gen.dart';
 import 'package:ebook_reader/presentations/app_route.dart';
 import 'package:ebook_reader/presentations/pages/home/providers/home_notifier.dart';
