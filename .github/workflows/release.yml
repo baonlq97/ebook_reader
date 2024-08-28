@@ -23,7 +23,7 @@ jobs:
         run: flutter pub get
 
       - name: Build APK
-        run: flutter build apk --release
+        run: flutter build apk --release --output build/app/outputs/flutter-apk/ebook-reader.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v3
