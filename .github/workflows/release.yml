@@ -1,4 +1,4 @@
-name: Build Flutter APK on Tag
+name: Build Flutter APK and IPA on Tag
 
 on:
   push:
@@ -6,7 +6,8 @@ on:
       - 'v*.*.*'
 
 jobs:
-  build:
+  build-android:
+    name: 🎉 Android Build
     runs-on: ubuntu-latest
 
     steps:
@@ -28,12 +29,55 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: android-release-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/ebook-reader.apk
 
       - name: Create Release on GitHub
         if: github.ref_type == 'tag'
         uses: softprops/action-gh-release@v1
         with:
-          files: build/app/outputs/flutter-apk/app-release.apk
+          files: build/app/outputs/flutter-apk/ebook-reader.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-ios:
+    name: 🎉 iOS Build
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          architecture: x64
+
+      - run: flutter pub get
+
+      - run: pod repo update
+        working-directory: ios
+
+      - run: flutter build ios --release --no-codesign
+
+      - run: mkdir Payload
+        working-directory: build/ios/iphoneos
+
+      - run: mv Runner.app/ Payload
+        working-directory: build/ios/iphoneos
+
+      - name: Zip output
+        run: zip -qq -r -9 EbookReader.ipa Payload
+        working-directory: build/ios/iphoneos
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v3
+        with:
+          name: ios-release-ipa
+          path: build/ios/iphoneos/EbookReader.ipa
+
+      - name: Create Release on GitHub
+        if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: build/ios/iphoneos/EbookReader.ipa
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
