@@ -1,9 +1,6 @@
 import 'package:ebook_reader/common/resources/data_state.dart';
-import 'package:ebook_reader/data/models/api/author/author.dart';
 import 'package:ebook_reader/data/models/api/book/book.dart';
 import 'package:ebook_reader/data/models/api/book_set/book_set.dart';
-import 'package:ebook_reader/data/models/api/formats/formats.dart';
-import 'package:ebook_reader/data/models/api/translator/translator.dart';
 import 'package:ebook_reader/data/repositories/book_repository_impl.dart';
 import 'package:ebook_reader/di/providers/book_repository/book_repository_provider.dart';
 import 'package:ebook_reader/presentations/pages/home/providers/home_notifier.dart';

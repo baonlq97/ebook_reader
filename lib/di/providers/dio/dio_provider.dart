@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:ebook_reader/common/constant/constant.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dio_provider.g.dart';
