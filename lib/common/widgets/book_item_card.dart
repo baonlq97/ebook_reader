@@ -30,120 +30,119 @@ class BookItemCard extends ConsumerWidget {
       height: 160.0,
       child: GestureDetector(
         onTap: onClick,
-        child: Card(
-          clipBehavior: Clip.hardEdge,
-          elevation: 3.0,
-          shape: RoundedRectangleBorder(
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 8.0),
+          decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(6.0),
+            color: Theme.of(context).colorScheme.primary.withAlpha(40),
           ),
-          child: Container(
-            color: Theme.of(context).colorScheme.surfaceContainer,
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(6.0),
-                      child: Container(
-                        color: Theme.of(context).colorScheme.surfaceContainer,
-                        child: CachedNetworkImage(
-                          imageUrl: coverImageUrl ?? "",
-                          placeholder: (context, url) => Image.asset(
-                            Assets.drawable.placeholderCat.path,
-                            fit: BoxFit.cover,
-                          ),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(6.0),
+                    child: Container(
+                      color: Theme.of(context).colorScheme.surfaceContainer,
+                      child: CachedNetworkImage(
+                        width: double.infinity,
+                        height: double.infinity,
+                        imageUrl: coverImageUrl ?? "",
+                        placeholder: (context, url) => Image.asset(
+                          Assets.drawable.placeholderCat.path,
                           fit: BoxFit.cover,
                         ),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
                 ),
-                Expanded(
-                  flex: 2,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.only(left: 12.0, right: 8.0),
-                        child: Text(
-                          title,
-                          style: TextStyle(
-                              fontStyle: Theme.of(context)
-                                  .typography
-                                  .white
-                                  .headlineMedium
-                                  ?.fontStyle,
-                              fontSize: 16.0,
-                              fontFamily: Assets.fonts.figeronaBold,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.onSurface),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(left: 12.0, right: 8.0),
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                            fontStyle: Theme.of(context)
+                                .typography
+                                .white
+                                .headlineMedium
+                                ?.fontStyle,
+                            fontSize: 16.0,
+                            fontFamily: Assets.fonts.figeronaBold,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.onSurface),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      Container(
-                        padding: const EdgeInsets.only(left: 12.0, right: 8.0),
-                        child: Text(
-                          author,
-                          style: TextStyle(
-                              fontStyle: Theme.of(context)
-                                  .typography
-                                  .white
-                                  .bodySmall
-                                  ?.fontStyle,
-                              fontSize: 13.0,
-                              fontFamily: Assets.fonts.figeronaRegular,
-                              color: Theme.of(context).colorScheme.onSurface),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(left: 12.0, right: 8.0),
+                      child: Text(
+                        author,
+                        style: TextStyle(
+                            fontStyle: Theme.of(context)
+                                .typography
+                                .white
+                                .bodySmall
+                                ?.fontStyle,
+                            fontSize: 13.0,
+                            fontFamily: Assets.fonts.figeronaRegular,
+                            color: Theme.of(context).colorScheme.onSurface),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(
-                        height: 8.0,
+                    ),
+                    const SizedBox(
+                      height: 8.0,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(left: 12.0, right: 8.0),
+                      child: Text(
+                        language,
+                        style: TextStyle(
+                            fontStyle: Theme.of(context)
+                                .typography
+                                .white
+                                .bodyMedium
+                                ?.fontStyle,
+                            fontSize: 14.0,
+                            fontFamily: Assets.fonts.figeronaSemibold,
+                            fontWeight: FontWeight.w600,
+                            color: Theme.of(context).colorScheme.onSurface),
                       ),
-                      Container(
-                        padding: const EdgeInsets.only(left: 12.0, right: 8.0),
-                        child: Text(
-                          language,
-                          style: TextStyle(
-                              fontStyle: Theme.of(context)
-                                  .typography
-                                  .white
-                                  .bodyMedium
-                                  ?.fontStyle,
-                              fontSize: 14.0,
-                              fontFamily: Assets.fonts.figeronaSemibold,
-                              fontWeight: FontWeight.w600,
-                              color: Theme.of(context).colorScheme.onSurface),
-                        ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(left: 12.0, right: 8.0),
+                      child: Text(
+                        subjects,
+                        style: TextStyle(
+                            fontStyle: Theme.of(context)
+                                .typography
+                                .white
+                                .bodySmall
+                                ?.fontStyle,
+                            fontSize: 12.0,
+                            fontFamily: Assets.fonts.figeronaLight,
+                            color: Theme.of(context).colorScheme.onSurface),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      Container(
-                        padding: const EdgeInsets.only(left: 12.0, right: 8.0),
-                        child: Text(
-                          subjects,
-                          style: TextStyle(
-                              fontStyle: Theme.of(context)
-                                  .typography
-                                  .white
-                                  .bodySmall
-                                  ?.fontStyle,
-                              fontSize: 12.0,
-                              fontFamily: Assets.fonts.figeronaLight,
-                              color: Theme.of(context).colorScheme.onSurface),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),

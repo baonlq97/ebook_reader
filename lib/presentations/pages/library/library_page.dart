@@ -6,7 +6,9 @@ import 'package:ebook_reader/presentations/app_route.dart';
 import 'package:ebook_reader/presentations/pages/library/providers/library_provider.dart'
     as provider;
 import 'package:ebook_reader/presentations/pages/library/widgets/library_card.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -78,7 +80,7 @@ class LibraryPage extends ConsumerWidget {
   }
 }
 
-class LibraryLazyItem extends StatelessWidget {
+class LibraryLazyItem extends StatefulWidget {
   final LibraryItem item;
   final provider.Library notifier;
 
@@ -89,14 +91,40 @@ class LibraryLazyItem extends StatelessWidget {
   });
 
   @override
+  State<LibraryLazyItem> createState() => _LibraryLazyItemState();
+}
+
+class _LibraryLazyItemState extends State<LibraryLazyItem> {
+  var backgroundColor = Colors.white;
+
+  void changeBackgroundColor(Color color) {
+    backgroundColor = color;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4.0),
+      margin: const EdgeInsets.only(top: 8.0),
       child: Dismissible(
-        key: ValueKey(item.id),
+        key: ValueKey(widget.item.id),
+        onUpdate: (details) {
+          if (details.progress <= 0.3) {
+            setState(() {
+              changeBackgroundColor(Colors.grey.shade800);
+            });
+          } else {
+            setState(() {
+              changeBackgroundColor(Theme.of(context).colorScheme.primary);
+            });
+          }
+        },
+        dismissThresholds: Map.of({
+          DismissDirection.startToEnd: 0.3,
+          DismissDirection.endToStart: 0.3
+        }),
         background: Container(
           padding: const EdgeInsets.only(left: 20.0),
-          color: Theme.of(context).colorScheme.primary,
+          color: backgroundColor,
           child: const Align(
             alignment: Alignment.centerLeft,
             child: Row(
@@ -119,7 +147,7 @@ class LibraryLazyItem extends StatelessWidget {
         ),
         secondaryBackground: Container(
           padding: const EdgeInsets.only(right: 20.0),
-          color: Theme.of(context).colorScheme.primary,
+          color: backgroundColor,
           child: const Align(
             alignment: Alignment.centerRight,
             child: Row(
@@ -146,7 +174,7 @@ class LibraryLazyItem extends StatelessWidget {
             GoRouter.of(context).push(
               AppRoute.bookReader.path,
               extra: {
-                'libraryItem': item,
+                'libraryItem': widget.item,
               },
             );
             return false;
@@ -156,20 +184,20 @@ class LibraryLazyItem extends StatelessWidget {
           }
         },
         child: FutureBuilder(
-          future: item.getFileSize(item.fileName),
+          future: widget.item.getFileSize(widget.item.fileName),
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data != null) {
               return LibraryCard(
-                title: item.title,
-                author: item.authors,
+                title: widget.item.title,
+                author: widget.item.authors,
                 fileSize: snapshot.data!,
-                date: item.getDownloadDate(item.createdAt),
+                date: widget.item.getDownloadDate(widget.item.createdAt),
                 isExternalBook: false,
                 onReadClick: () {
                   GoRouter.of(context).push(
                     AppRoute.bookReader.path,
                     extra: {
-                      'libraryItem': item,
+                      'libraryItem': widget.item,
                     },
                   );
                 },
@@ -187,8 +215,11 @@ class LibraryLazyItem extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Delete Book"),
-        content: const Text("Are you sure you want to delete this book?"),
+        surfaceTintColor: Theme.of(context).colorScheme.primary.withAlpha(40),
+        content: const Text(
+          "Are you sure about that?",
+          style: TextStyle(fontSize: 20.0),
+        ),
         actions: [
           TextButton(
             onPressed: () {
@@ -197,17 +228,23 @@ class LibraryLazyItem extends StatelessWidget {
             child: const Text("Cancel"),
           ),
           ElevatedButton(
+            style: ButtonStyle(
+                backgroundColor: WidgetStatePropertyAll(Colors.red.shade100)),
             onPressed: () async {
-              final fileDeleted = await item.deleteFile(item.fileName);
+              final fileDeleted =
+                  await widget.item.deleteFile(widget.item.fileName);
               if (fileDeleted) {
-                await notifier.deleteItemFromDB(item);
+                await widget.notifier.deleteItemFromDB(widget.item);
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Delete failed! Try again.')));
               }
               Navigator.pop(context);
             },
-            child: const Text("Delete"),
+            child: const Text(
+              "Confirm",
+              style: TextStyle(color: Colors.black),
+            ),
           ),
         ],
       ),
