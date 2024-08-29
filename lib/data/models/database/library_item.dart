@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ebook_reader/common/utils/util.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 
@@ -17,8 +18,8 @@ class LibraryItem {
 
   String authors;
 
-  @Name('file_path')
-  String filePath;
+  @Name('file_name')
+  String fileName;
 
   @Name('is_external_book')
   bool isExternalBook;
@@ -31,17 +32,19 @@ class LibraryItem {
     required this.bookId,
     required this.title,
     required this.authors,
-    required this.filePath,
+    required this.fileName,
     this.isExternalBook = false,
     required this.createdAt,
   });
 
-  bool fileExists(String filePath) {
+  Future<bool> fileExists(String fileName) async {
+    final filePath = await Utility.getFilePath(fileName);
     final file = File(filePath);
     return file.existsSync();
   }
 
-  String getFileSize(String filePath) {
+  Future<String> getFileSize(String fileName) async {
+    final filePath = await Utility.getFilePath(fileName);
     final file = File(filePath);
     int bytes = file.lengthSync();
 
@@ -66,7 +69,8 @@ class LibraryItem {
     return DateFormat.yMMMd().format(date); // Example format: Jan 1, 2024
   }
 
-  bool deleteFile(String filePath) {
+  Future<bool> deleteFile(String fileName) async {
+    final filePath = await Utility.getFilePath(fileName);
     final file = File(filePath);
     try {
       file.deleteSync();

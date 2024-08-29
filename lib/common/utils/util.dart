@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:ebook_reader/common/constant/constant.dart';
+import 'package:path_provider/path_provider.dart';
 
 class Utility {
   static String createEpubFileName(String title) {
@@ -21,5 +24,31 @@ class Utility {
     }
 
     return "$sanitizedTitle.epub";
+  }
+
+  static Future<String> getTempFilePath(String filename) async {
+    Directory? dir;
+
+    try {
+      if (Platform.isIOS) {
+        dir = await getApplicationDocumentsDirectory();
+      } else {
+        dir = await getExternalStorageDirectory();
+      }
+    } catch (err) {
+      print("Cannot get download folder path $err");
+    }
+    return "${dir?.path}/$filename";
+  }
+
+  static Future<String> getFilePath(String filename) async {
+    Directory? dir;
+
+    try {
+      dir = await getApplicationSupportDirectory();
+    } catch (err) {
+      print("Cannot get folder path $err");
+    }
+    return "${dir?.path}/$filename";
   }
 }
