@@ -105,13 +105,13 @@ class BookDetail extends _$BookDetail {
         state = AsyncData(
             state.value?.copyWith(downloadProgress: downloadProgress));
       },
-      (path) {
+      (fileName) {
         state = AsyncData(
           state.value?.copyWith(
             isDownloading: false,
           ),
         );
-        onSuccess(path);
+        onSuccess(fileName);
       },
     );
   }

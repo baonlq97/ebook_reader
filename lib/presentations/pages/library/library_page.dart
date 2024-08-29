@@ -41,12 +41,17 @@ class LibraryPage extends ConsumerWidget {
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                     final item = data[index]!;
-                    if (!item.fileExists(item.filePath)) {
-                      libraryNotifier.deleteItemFromDB(item);
-                      return null;
-                    }
-                    return LibraryLazyItem(
-                        item: item, notifier: libraryNotifier);
+                    return FutureBuilder(
+                      future: item.fileExists(item.fileName),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData && !snapshot.data!) {
+                          libraryNotifier.deleteItemFromDB(item);
+                          return const SizedBox.shrink();
+                        }
+                        return LibraryLazyItem(
+                            item: item, notifier: libraryNotifier);
+                      },
+                    );
                   },
                 );
         },
@@ -96,7 +101,6 @@ class LibraryLazyItem extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: Row(
               children: [
-
                 Icon(
                   Icons.read_more,
                   color: Colors.white,
@@ -151,21 +155,29 @@ class LibraryLazyItem extends StatelessWidget {
             return false;
           }
         },
-        child: LibraryCard(
-          title: item.title,
-          author: item.authors,
-          fileSize: item.getFileSize(item.filePath),
-          date: item.getDownloadDate(item.createdAt),
-          isExternalBook: false,
-          onReadClick: () {
-            GoRouter.of(context).push(
-              AppRoute.bookReader.path,
-              extra: {
-                'libraryItem': item,
-              },
-            );
+        child: FutureBuilder(
+          future: item.getFileSize(item.fileName),
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data != null) {
+              return LibraryCard(
+                title: item.title,
+                author: item.authors,
+                fileSize: snapshot.data!,
+                date: item.getDownloadDate(item.createdAt),
+                isExternalBook: false,
+                onReadClick: () {
+                  GoRouter.of(context).push(
+                    AppRoute.bookReader.path,
+                    extra: {
+                      'libraryItem': item,
+                    },
+                  );
+                },
+                onDeleteClick: () => _showDeleteDialog(context),
+              );
+            }
+            return const SizedBox.shrink();
           },
-          onDeleteClick: () => _showDeleteDialog(context),
         ),
       ),
     );
@@ -186,7 +198,7 @@ class LibraryLazyItem extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () async {
-              final fileDeleted = item.deleteFile(item.filePath);
+              final fileDeleted = await item.deleteFile(item.fileName);
               if (fileDeleted) {
                 await notifier.deleteItemFromDB(item);
               } else {

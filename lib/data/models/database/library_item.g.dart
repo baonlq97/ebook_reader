@@ -32,9 +32,9 @@ const LibraryItemSchema = CollectionSchema(
       name: r'created_at',
       type: IsarType.long,
     ),
-    r'file_path': PropertySchema(
+    r'file_name': PropertySchema(
       id: 3,
-      name: r'file_path',
+      name: r'file_name',
       type: IsarType.string,
     ),
     r'is_external_book': PropertySchema(
@@ -69,7 +69,7 @@ int _libraryItemEstimateSize(
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.authors.length * 3;
-  bytesCount += 3 + object.filePath.length * 3;
+  bytesCount += 3 + object.fileName.length * 3;
   bytesCount += 3 + object.title.length * 3;
   return bytesCount;
 }
@@ -83,7 +83,7 @@ void _libraryItemSerialize(
   writer.writeString(offsets[0], object.authors);
   writer.writeLong(offsets[1], object.bookId);
   writer.writeLong(offsets[2], object.createdAt);
-  writer.writeString(offsets[3], object.filePath);
+  writer.writeString(offsets[3], object.fileName);
   writer.writeBool(offsets[4], object.isExternalBook);
   writer.writeString(offsets[5], object.title);
 }
@@ -98,7 +98,7 @@ LibraryItem _libraryItemDeserialize(
     authors: reader.readString(offsets[0]),
     bookId: reader.readLong(offsets[1]),
     createdAt: reader.readLong(offsets[2]),
-    filePath: reader.readString(offsets[3]),
+    fileName: reader.readString(offsets[3]),
     id: id,
     isExternalBook: reader.readBoolOrNull(offsets[4]) ?? false,
     title: reader.readString(offsets[5]),
@@ -467,13 +467,13 @@ extension LibraryItemQueryFilter
     });
   }
 
-  QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition> filePathEqualTo(
+  QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition> fileNameEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'file_path',
+        property: r'file_name',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -481,7 +481,7 @@ extension LibraryItemQueryFilter
   }
 
   QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition>
-      filePathGreaterThan(
+      fileNameGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -489,7 +489,7 @@ extension LibraryItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'file_path',
+        property: r'file_name',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -497,7 +497,7 @@ extension LibraryItemQueryFilter
   }
 
   QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition>
-      filePathLessThan(
+      fileNameLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -505,14 +505,14 @@ extension LibraryItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'file_path',
+        property: r'file_name',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition> filePathBetween(
+  QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition> fileNameBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -521,7 +521,7 @@ extension LibraryItemQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'file_path',
+        property: r'file_name',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -532,13 +532,13 @@ extension LibraryItemQueryFilter
   }
 
   QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition>
-      filePathStartsWith(
+      fileNameStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'file_path',
+        property: r'file_name',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -546,13 +546,13 @@ extension LibraryItemQueryFilter
   }
 
   QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition>
-      filePathEndsWith(
+      fileNameEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'file_path',
+        property: r'file_name',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -560,22 +560,22 @@ extension LibraryItemQueryFilter
   }
 
   QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition>
-      filePathContains(String value, {bool caseSensitive = true}) {
+      fileNameContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
-        property: r'file_path',
+        property: r'file_name',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition> filePathMatches(
+  QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition> fileNameMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
-        property: r'file_path',
+        property: r'file_name',
         wildcard: pattern,
         caseSensitive: caseSensitive,
       ));
@@ -583,20 +583,20 @@ extension LibraryItemQueryFilter
   }
 
   QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition>
-      filePathIsEmpty() {
+      fileNameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'file_path',
+        property: r'file_name',
         value: '',
       ));
     });
   }
 
   QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition>
-      filePathIsNotEmpty() {
+      fileNameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'file_path',
+        property: r'file_name',
         value: '',
       ));
     });
@@ -842,15 +842,15 @@ extension LibraryItemQuerySortBy
     });
   }
 
-  QueryBuilder<LibraryItem, LibraryItem, QAfterSortBy> sortByFilePath() {
+  QueryBuilder<LibraryItem, LibraryItem, QAfterSortBy> sortByFileName() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'file_path', Sort.asc);
+      return query.addSortBy(r'file_name', Sort.asc);
     });
   }
 
-  QueryBuilder<LibraryItem, LibraryItem, QAfterSortBy> sortByFilePathDesc() {
+  QueryBuilder<LibraryItem, LibraryItem, QAfterSortBy> sortByFileNameDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'file_path', Sort.desc);
+      return query.addSortBy(r'file_name', Sort.desc);
     });
   }
 
@@ -918,15 +918,15 @@ extension LibraryItemQuerySortThenBy
     });
   }
 
-  QueryBuilder<LibraryItem, LibraryItem, QAfterSortBy> thenByFilePath() {
+  QueryBuilder<LibraryItem, LibraryItem, QAfterSortBy> thenByFileName() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'file_path', Sort.asc);
+      return query.addSortBy(r'file_name', Sort.asc);
     });
   }
 
-  QueryBuilder<LibraryItem, LibraryItem, QAfterSortBy> thenByFilePathDesc() {
+  QueryBuilder<LibraryItem, LibraryItem, QAfterSortBy> thenByFileNameDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'file_path', Sort.desc);
+      return query.addSortBy(r'file_name', Sort.desc);
     });
   }
 
@@ -989,10 +989,10 @@ extension LibraryItemQueryWhereDistinct
     });
   }
 
-  QueryBuilder<LibraryItem, LibraryItem, QDistinct> distinctByFilePath(
+  QueryBuilder<LibraryItem, LibraryItem, QDistinct> distinctByFileName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'file_path', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'file_name', caseSensitive: caseSensitive);
     });
   }
 
@@ -1036,9 +1036,9 @@ extension LibraryItemQueryProperty
     });
   }
 
-  QueryBuilder<LibraryItem, String, QQueryOperations> filePathProperty() {
+  QueryBuilder<LibraryItem, String, QQueryOperations> fileNameProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'file_path');
+      return query.addPropertyName(r'file_name');
     });
   }
 

@@ -26,7 +26,7 @@ class BookDownloader {
     final fileName = Utility.createEpubFileName(book.title);
 
     String baseUrl = book.formats.applicationEpubZip ?? "";
-    String path = await _getTempFilePath(fileName);
+    String path = await Utility.getTempFilePath(fileName);
 
     final tempFile = File(path);
 
@@ -48,39 +48,12 @@ class BookDownloader {
 
     if (isSuccess) {
       try {
-        final bookFilePath = await _getFilePath(fileName);
-        final bookFile = await tempFile.copy(bookFilePath);
+        await tempFile.copy(await Utility.getFilePath(fileName));
         tempFile.delete();
-        onSuccess(bookFile.absolute.path);
+        onSuccess(fileName);
       } catch (ex) {
         print(ex);
       }
     }
-  }
-
-  Future<String> _getTempFilePath(String filename) async {
-    Directory? dir;
-
-    try {
-      if (Platform.isIOS) {
-        dir = await getApplicationDocumentsDirectory();
-      } else {
-        dir = await getExternalStorageDirectory();
-      }
-    } catch (err) {
-      print("Cannot get download folder path $err");
-    }
-    return "${dir?.path}/$filename";
-  }
-
-  Future<String> _getFilePath(String filename) async {
-    Directory? dir;
-
-    try {
-      dir = await getApplicationSupportDirectory();
-    } catch (err) {
-      print("Cannot get folder path $err");
-    }
-    return "${dir?.path}/$filename";
   }
 }

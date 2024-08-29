@@ -73,7 +73,7 @@ class BookDetailPage extends ConsumerWidget {
                       },
                     );
                   } else if (buttonText == 'Download') {
-                    bookDetailNotifier.startDownloading(context, book, (path) {
+                    bookDetailNotifier.startDownloading(context, book, (fileName) {
                       bookDetailNotifier
                           .insert(
                         LibraryItem(
@@ -82,7 +82,7 @@ class BookDetailPage extends ConsumerWidget {
                           authors: BookUtil.getAuthorsAsString(
                             book.authors,
                           ),
-                          filePath: path,
+                          fileName: fileName,
                           createdAt: DateTime.now().millisecondsSinceEpoch,
                         ),
                       )
