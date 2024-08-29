@@ -42,7 +42,7 @@ class BottomNavigationAppBar extends ConsumerWidget {
         ref.read(bottomNavigationAppBarProvider.notifier).changePage(BottomNavState.values[index]);
         _onItemTapped(index, context);
       },
-      backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+      backgroundColor: Theme.of(context).colorScheme.primary.withAlpha(40),
       indicatorColor: Theme.of(context).colorScheme.primary.withAlpha(50),
     );
   }

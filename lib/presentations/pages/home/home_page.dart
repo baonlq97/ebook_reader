@@ -114,15 +114,17 @@ class HomePageState extends ConsumerState<HomePage> {
                 _debounce?.cancel();
                 _debounce = Timer(const Duration(milliseconds: 500), () {
                   _cancelToken = CancelToken();
-                  searchNotifier.searchBooks(
-                      _cancelToken!, value);
+                  searchNotifier.searchBooks(_cancelToken!, value);
                 });
               },
             ),
       body: Container(
         child: isFirstLoading
             ? Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                margin: const EdgeInsets.symmetric(
+                  vertical: 8.0,
+                  horizontal: 8.0,
+                ),
                 child: const BookItemsShimmer(),
               )
             : isError
@@ -142,11 +144,15 @@ class HomePageState extends ConsumerState<HomePage> {
                   )
                 : (currentBooks != null && currentBooks.isNotEmpty)
                     ? Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        margin: const EdgeInsets.fromLTRB(
+                          8.0,
+                          8.0,
+                          8.0,
+                          0.0,
+                        ),
                         child: !isSearching
                             ? ListView.builder(
                                 controller: _scrollController(ref),
-                                padding: const EdgeInsets.all(4.0),
                                 itemCount: currentBooks.length +
                                     (isLoadingMore ? 1 : 0),
                                 itemBuilder: (_, index) {
@@ -161,7 +167,9 @@ class HomePageState extends ConsumerState<HomePage> {
                                       language: currentBooks[index]
                                               .languages
                                               .isNotEmpty
-                                          ? currentBooks[index].languages[0]
+                                          ? currentBooks[index]
+                                              .languages[0]
+                                              .toUpperCase()
                                           : "",
                                       subjects: currentBooks[index]
                                               .subjects
@@ -198,7 +206,10 @@ class HomePageState extends ConsumerState<HomePage> {
                               ),
                       )
                     : Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        margin: const EdgeInsets.symmetric(
+                          vertical: 8.0,
+                          horizontal: 8.0,
+                        ),
                         child: const BookItemsShimmer(),
                       ),
       ),

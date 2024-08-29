@@ -48,7 +48,22 @@ class MyApp extends StatelessWidget {
           GoRoute(
             path: AppRoute.home.path,
             pageBuilder: (BuildContext context, GoRouterState state) {
-              return const NoTransitionPage(child: HomePage());
+              return CustomTransitionPage(
+                child: const HomePage(),
+                transitionDuration: const Duration(milliseconds: 500),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(
+                    opacity: Tween<double>(begin: 0.0, end: 1.0).animate(
+                      CurvedAnimation(
+                        parent: animation,
+                        curve: Curves.fastOutSlowIn,
+                      ),
+                    ),
+                    child: const HomePage(),
+                  );
+                },
+              );
             },
           ),
           GoRoute(
@@ -57,12 +72,25 @@ class MyApp extends StatelessWidget {
               return const NoTransitionPage(child: CategoryPage());
             },
           ),
-
-          /// The third screen to display in the bottom navigation bar.
           GoRoute(
             path: AppRoute.library.path,
             pageBuilder: (BuildContext context, GoRouterState state) {
-              return const NoTransitionPage(child: LibraryPage());
+              return CustomTransitionPage(
+                child: const LibraryPage(),
+                transitionDuration: const Duration(milliseconds: 500),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(
+                    opacity: Tween<double>(begin: 0.0, end: 1.0).animate(
+                      CurvedAnimation(
+                        parent: animation,
+                        curve: Curves.fastOutSlowIn,
+                      ),
+                    ),
+                    child: const LibraryPage(),
+                  );
+                },
+              );
             },
           ),
           GoRoute(

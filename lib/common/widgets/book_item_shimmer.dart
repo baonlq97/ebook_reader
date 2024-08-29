@@ -11,11 +11,12 @@ class BookItemShimmer extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       height: 160.0,
-      child: Card(
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 8.0),
         clipBehavior: Clip.hardEdge,
-        elevation: 3.0,
-        shape: RoundedRectangleBorder(
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6.0),
+          color: Theme.of(context).colorScheme.primary.withAlpha(40),
         ),
         child: Shimmer.fromColors(
           baseColor: Colors.grey[300]!,
@@ -43,9 +44,8 @@ class BookItemShimmer extends StatelessWidget {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(6.0)
-                      ),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(6.0)),
                       margin: const EdgeInsets.only(left: 12.0, right: 8.0),
                       width: double.infinity,
                       height: 20.0,
@@ -55,9 +55,8 @@ class BookItemShimmer extends StatelessWidget {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(6.0)
-                      ),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(6.0)),
                       margin: const EdgeInsets.only(left: 12.0, right: 8.0),
                       width: 80.0,
                       height: 20.0,
@@ -67,9 +66,8 @@ class BookItemShimmer extends StatelessWidget {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(6.0)
-                      ),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(6.0)),
                       margin: const EdgeInsets.only(left: 12.0, right: 8.0),
                       width: 60.0,
                       height: 20.0,
@@ -79,9 +77,8 @@ class BookItemShimmer extends StatelessWidget {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(6.0)
-                      ),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(6.0)),
                       margin: const EdgeInsets.only(left: 12.0, right: 8.0),
                       width: 150.0,
                       height: 20.0,

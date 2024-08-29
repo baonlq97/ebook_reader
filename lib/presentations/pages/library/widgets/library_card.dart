@@ -1,3 +1,4 @@
+import 'package:ebook_reader/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 class LibraryCard extends StatelessWidget {
@@ -23,15 +24,15 @@ class LibraryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Theme.of(context).colorScheme.primary.withAlpha(50),
+      color: Theme.of(context).colorScheme.primary.withAlpha(40),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              height: 90.0,
-              width: 90.0,
+              height: 72.0,
+              width: 72.0,
               padding: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.primary,
@@ -39,13 +40,14 @@ class LibraryCard extends StatelessWidget {
               ),
               child: Icon(
                 isExternalBook
-                    ? Icons.import_contacts // Replace with your external book icon
+                    ? Icons
+                        .import_contacts // Replace with your external book icon
                     : Icons.book, // Replace with your regular book icon
                 size: 32.0,
                 color: Theme.of(context).colorScheme.onPrimary,
               ),
             ),
-            const SizedBox(width: 8.0),
+            const SizedBox(width: 16.0),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,18 +55,19 @@ class LibraryCard extends StatelessWidget {
                   Text(
                     title,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w600,
-                    ),
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: Assets.fonts.figeronaMedium),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
+                  const SizedBox(height: 4.0),
                   Text(
                     author,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w500,
-                    ),
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: Assets.fonts.figeronaMedium),
                     maxLines: 1,
                   ),
                   const SizedBox(height: 2.0),
@@ -74,22 +77,28 @@ class LibraryCard extends StatelessWidget {
                       Text(
                         fileSize,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w300,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                            color: Colors.black,
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.w300,
+                            overflow: TextOverflow.ellipsis,
+                            fontFamily: Assets.fonts.figeronaMedium),
                       ),
-                      const VerticalDivider(
-                        width: 12.0,
-                        thickness: 1.0,
+                      const SizedBox(
+                        height: 16.0, // Set a fixed height
+                        child: VerticalDivider(
+                          width: 12.0,
+                          thickness: 1.0,
+                          color: Colors.black54,
+                        ),
                       ),
                       Text(
                         date,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w300,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                            color: Colors.black,
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.w300,
+                            overflow: TextOverflow.ellipsis,
+                            fontFamily: Assets.fonts.figeronaMedium),
                       ),
                     ],
                   ),
@@ -98,7 +107,7 @@ class LibraryCard extends StatelessWidget {
                     children: [
                       LibraryCardButton(
                         text: 'Read',
-                        icon: Icons.read_more, // Replace with your read icon
+                        icon: Icons.read_more,
                         onClick: onReadClick,
                       ),
                       const SizedBox(width: 10.0),
@@ -133,15 +142,37 @@ class LibraryCardButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton.icon(
-      onPressed: onClick,
-      icon: Icon(icon, size: 14.0),
-      label: Text(
-        text,
-        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-          fontSize: 14.0,
-          fontWeight: FontWeight.w500,
+    return OutlinedButton(
+      style: ButtonStyle(
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        side: const WidgetStatePropertyAll(
+          BorderSide(style: BorderStyle.solid),
         ),
+        minimumSize: const WidgetStatePropertyAll(Size.zero),
+        shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))),
+        padding: const WidgetStatePropertyAll(
+            EdgeInsets.symmetric(horizontal: 6.0, vertical: 6.0)),
+        alignment: Alignment.center,
+      ),
+      onPressed: onClick,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            size: 14.0,
+            color: Colors.black,
+          ),
+          const SizedBox(width: 2.0),
+          Text(
+            text,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                fontSize: 12.0,
+                fontWeight: FontWeight.w500,
+                fontFamily: Assets.fonts.figeronaMedium),
+          ),
+        ],
       ),
     );
   }
