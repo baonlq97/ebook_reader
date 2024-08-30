@@ -20,6 +20,7 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class HomePageState extends ConsumerState<HomePage> {
+  
   Timer? _debounce;
   CancelToken? _cancelToken;
 
@@ -162,7 +163,9 @@ class HomePageState extends ConsumerState<HomePage> {
                                       author: currentBooks[index]
                                               .authors
                                               .isNotEmpty
-                                          ? currentBooks[index].authors[0].name
+                                          ? currentBooks[index]
+                                              .authors[0]
+                                              .name
                                           : "",
                                       language: currentBooks[index]
                                               .languages
@@ -176,13 +179,15 @@ class HomePageState extends ConsumerState<HomePage> {
                                               .isNotEmpty
                                           ? currentBooks[index].subjects[0]
                                           : "",
-                                      coverImageUrl:
-                                          currentBooks[index].formats.imageJpeg,
+                                      coverImageUrl: currentBooks[index]
+                                          .formats
+                                          .imageJpeg,
                                       onClick: () => {
                                         GoRouter.of(context).push(
                                           AppRoute.bookDetail.path,
                                           extra: {
-                                            'bookId': currentBooks[index].id,
+                                            'bookId':
+                                                currentBooks[index].id,
                                           },
                                         )
                                       },
@@ -199,8 +204,8 @@ class HomePageState extends ConsumerState<HomePage> {
                               )
                             : const Center(
                                 child: Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 24.0),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 24.0),
                                   child: LinearProgressIndicator(),
                                 ),
                               ),
