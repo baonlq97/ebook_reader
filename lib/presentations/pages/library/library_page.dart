@@ -6,9 +6,7 @@ import 'package:ebook_reader/presentations/app_route.dart';
 import 'package:ebook_reader/presentations/pages/library/providers/library_provider.dart'
     as provider;
 import 'package:ebook_reader/presentations/pages/library/widgets/library_card.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 

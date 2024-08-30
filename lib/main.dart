@@ -9,10 +9,12 @@ import 'package:ebook_reader/presentations/pages/library/library_page.dart';
 import 'package:ebook_reader/presentations/pages/setting/setting_page.dart';
 import 'package:ebook_reader/presentations/pages/splash/splash_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:isar/isar.dart';
 
+final _platform = MethodChannel('com.example.ebook_reader/system');
 final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
 final GlobalKey<NavigatorState> _shellNavigatorKey =
@@ -21,7 +23,11 @@ final GlobalKey<NavigatorState> _shellNavigatorKey =
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Isar.initializeIsarCore();
-  runApp(ProviderScope(child: MyApp()));
+  runApp(
+    ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -60,7 +66,7 @@ class MyApp extends StatelessWidget {
                         curve: Curves.fastOutSlowIn,
                       ),
                     ),
-                    child: const HomePage(),
+                    child: child,
                   );
                 },
               );
@@ -87,7 +93,7 @@ class MyApp extends StatelessWidget {
                         curve: Curves.fastOutSlowIn,
                       ),
                     ),
-                    child: const LibraryPage(),
+                    child: child,
                   );
                 },
               );
@@ -144,11 +150,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      title: 'Ebook Reader',
-      theme: lightTheme,
-      routerConfig: _router,
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (didPop) async {
+        var value = await _platform.invokeMethod<String>('sendToBackground');
+        print(value);
+      },
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        title: 'Ebook Reader',
+        theme: lightTheme,
+        routerConfig: _router,
+      ),
     );
   }
 }

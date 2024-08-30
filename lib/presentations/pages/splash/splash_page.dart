@@ -11,31 +11,31 @@ class SplashPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AsyncValue<bool> initialFinished =
-        ref.watch(splashInitializeProvider);
-
     ref.listen<AsyncValue<bool>>(splashInitializeProvider, (previous, next) {
       next.whenData((isFinished) {
-        if (isFinished) {
+        if (isFinished && ModalRoute.of(context)?.isCurrent == true) {
           context.go(AppRoute.home.path);
         }
       });
     });
+
+    final AsyncValue<bool> initialFinished = ref.watch(splashInitializeProvider);
+    
     return Scaffold(
-        body: Center(
-            child: initialFinished.when(
-      data: (isFinished) {
-        if (isFinished) {
-          return Lottie.asset(Assets.raws.welcomeLottie);
-        }
-      },
-      loading: () => Lottie.asset(
-        Assets.raws.welcomeLottie,
-        width: 200,
-        height: 200,
-        fit: BoxFit.fill,
+      body: Center(
+        child: initialFinished.when(
+          data: (isFinished) {
+            return const SizedBox.shrink();
+          },
+          loading: () => Lottie.asset(
+            Assets.raws.welcomeLottie,
+            width: 200,
+            height: 200,
+            fit: BoxFit.fill,
+          ),
+          error: (error, stack) => Text('Error: $error'),
+        ),
       ),
-      error: (error, stack) => Text('Error: $error'),
-    )));
+    );
   }
 }
