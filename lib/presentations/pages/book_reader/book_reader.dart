@@ -25,10 +25,29 @@ class BookReaderPageState extends ConsumerState<BookReaderPage> {
   late EpubController _epubReaderController;
   late Future<void> _loadEpubFuture;
 
+  String? _currentPos;
+
   @override
   void initState() {
     _loadEpubFuture = _loadEpub();
     super.initState();
+  }
+
+  @override
+  void deactivate() {
+    if (Platform.isAndroid || Platform.isIOS) {
+      widget.libraryItem.currentPosition = _currentPos;
+      ref
+          .read(bookReaderProvider.notifier)
+          .saveCurrentPosition(widget.libraryItem);
+    }
+    super.deactivate();
+  }
+
+  @override
+  void dispose() {
+    _epubReaderController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadEpub() async {
@@ -41,12 +60,12 @@ class BookReaderPageState extends ConsumerState<BookReaderPage> {
           ),
         ),
       ),
+      epubCfi: widget.libraryItem.currentPosition,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    // final currentIndex = ref.watch(bookReaderProvider);
     return FutureBuilder(
       future: _loadEpubFuture,
       builder: (context, snapshot) {
@@ -58,94 +77,21 @@ class BookReaderPageState extends ConsumerState<BookReaderPage> {
           return Scaffold(
             appBar: AppBar(
               centerTitle: false,
-              // Show actual chapter name
               title: EpubViewActualChapter(
                 controller: _epubReaderController,
                 builder: (chapterValue) => Text(
-                  chapterValue?.chapter?.Title?.replaceAll('\n', '').trim() ??
-                      '',
+                  (chapterValue?.chapter?.Title?.replaceAll('\n', '').trim() ??
+                      ''),
                   textAlign: TextAlign.start,
-                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontFamily: FontFamily.pacifico,
-                    fontSize: 20,
+                    fontSize: 18,
                   ),
                 ),
               ),
             ),
-            // Show table of contents
-            drawer: Drawer(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SizedBox(
-                    height: 120.0,
-                    child: DrawerHeader(
-                      // margin: EdgeInsets.all(0.0),
-                      // padding: EdgeInsets.all(0.0),
-                      child: Text(
-                        'Chapters',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontFamily: Assets.fonts.figeronaLight,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: EpubViewTableOfContents(
-                      controller: _epubReaderController,
-                      itemBuilder: (context, index, chapter, itemCount) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            (chapter.type == 'chapter')
-                                ? Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: GestureDetector(
-                                      child: Text(
-                                        chapter.title!,
-                                        style: TextStyle(
-                                          fontFamily:
-                                              Assets.fonts.figeronaLight,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16.0,
-                                        ),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      onTap: () {
-                                        _epubReaderController.scrollTo(
-                                          index: chapter.startIndex,
-                                        );
-                                      },
-                                    ),
-                                  )
-                                : Padding(
-                                    padding: const EdgeInsets.only(left: 20.0),
-                                    child: GestureDetector(
-                                      child: Text(
-                                        chapter.title!,
-                                        style: TextStyle(
-                                          fontFamily:
-                                              Assets.fonts.figeronaLight,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 12.0,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                            const SizedBox(
-                              height: 16.0,
-                            )
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
+            endDrawer: Drawer(
+              child: EpubViewTableOfContents(controller: _epubReaderController),
             ),
             body: Builder(
               builder: (context) {
@@ -155,12 +101,14 @@ class BookReaderPageState extends ConsumerState<BookReaderPage> {
                     filter: ProductionFilter(),
                   ).e(error),
                   onChapterChanged: (value) => {
-                    ref
-                        .read(bookReaderProvider.notifier)
-                        .setCurrentIndex(value!.chapterNumber),
-                    if (Scaffold.of(context).isDrawerOpen)
+                    _currentPos = _epubReaderController.generateEpubCfi(),
+                    if (Scaffold.of(context).isEndDrawerOpen)
                       {Navigator.of(context).pop()},
                   },
+                  builders: EpubViewBuilders<DefaultBuilderOptions>(
+                    options: const DefaultBuilderOptions(),
+                    chapterDividerBuilder: (_) => const Divider(),
+                  ),
                 );
               },
             ),

@@ -68,7 +68,7 @@ class BookRepositoryImpl implements BookRepository {
   @override
   Future<void> insert(LibraryItem item) async {
     try {
-      await dbService.insert(item);
+      await dbService.insertOrUpdate(item);
     } catch (ex) {
       throw ex;
     }

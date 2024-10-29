@@ -32,18 +32,23 @@ const LibraryItemSchema = CollectionSchema(
       name: r'created_at',
       type: IsarType.long,
     ),
-    r'file_name': PropertySchema(
+    r'current_position': PropertySchema(
       id: 3,
+      name: r'current_position',
+      type: IsarType.string,
+    ),
+    r'file_name': PropertySchema(
+      id: 4,
       name: r'file_name',
       type: IsarType.string,
     ),
     r'is_external_book': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'is_external_book',
       type: IsarType.bool,
     ),
     r'title': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'title',
       type: IsarType.string,
     )
@@ -69,6 +74,12 @@ int _libraryItemEstimateSize(
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.authors.length * 3;
+  {
+    final value = object.currentPosition;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   bytesCount += 3 + object.fileName.length * 3;
   bytesCount += 3 + object.title.length * 3;
   return bytesCount;
@@ -83,9 +94,10 @@ void _libraryItemSerialize(
   writer.writeString(offsets[0], object.authors);
   writer.writeLong(offsets[1], object.bookId);
   writer.writeLong(offsets[2], object.createdAt);
-  writer.writeString(offsets[3], object.fileName);
-  writer.writeBool(offsets[4], object.isExternalBook);
-  writer.writeString(offsets[5], object.title);
+  writer.writeString(offsets[3], object.currentPosition);
+  writer.writeString(offsets[4], object.fileName);
+  writer.writeBool(offsets[5], object.isExternalBook);
+  writer.writeString(offsets[6], object.title);
 }
 
 LibraryItem _libraryItemDeserialize(
@@ -98,10 +110,11 @@ LibraryItem _libraryItemDeserialize(
     authors: reader.readString(offsets[0]),
     bookId: reader.readLong(offsets[1]),
     createdAt: reader.readLong(offsets[2]),
-    fileName: reader.readString(offsets[3]),
+    currentPosition: reader.readStringOrNull(offsets[3]),
+    fileName: reader.readString(offsets[4]),
     id: id,
-    isExternalBook: reader.readBoolOrNull(offsets[4]) ?? false,
-    title: reader.readString(offsets[5]),
+    isExternalBook: reader.readBoolOrNull(offsets[5]) ?? false,
+    title: reader.readString(offsets[6]),
   );
   return object;
 }
@@ -120,10 +133,12 @@ P _libraryItemDeserializeProp<P>(
     case 2:
       return (reader.readLong(offset)) as P;
     case 3:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 4:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
+      return (reader.readString(offset)) as P;
     case 5:
+      return (reader.readBoolOrNull(offset) ?? false) as P;
+    case 6:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -463,6 +478,160 @@ extension LibraryItemQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition>
+      currentPositionIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'current_position',
+      ));
+    });
+  }
+
+  QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition>
+      currentPositionIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'current_position',
+      ));
+    });
+  }
+
+  QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition>
+      currentPositionEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'current_position',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition>
+      currentPositionGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'current_position',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition>
+      currentPositionLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'current_position',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition>
+      currentPositionBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'current_position',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition>
+      currentPositionStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'current_position',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition>
+      currentPositionEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'current_position',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition>
+      currentPositionContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'current_position',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition>
+      currentPositionMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'current_position',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition>
+      currentPositionIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'current_position',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<LibraryItem, LibraryItem, QAfterFilterCondition>
+      currentPositionIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'current_position',
+        value: '',
       ));
     });
   }
@@ -842,6 +1011,19 @@ extension LibraryItemQuerySortBy
     });
   }
 
+  QueryBuilder<LibraryItem, LibraryItem, QAfterSortBy> sortByCurrentPosition() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'current_position', Sort.asc);
+    });
+  }
+
+  QueryBuilder<LibraryItem, LibraryItem, QAfterSortBy>
+      sortByCurrentPositionDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'current_position', Sort.desc);
+    });
+  }
+
   QueryBuilder<LibraryItem, LibraryItem, QAfterSortBy> sortByFileName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'file_name', Sort.asc);
@@ -918,6 +1100,19 @@ extension LibraryItemQuerySortThenBy
     });
   }
 
+  QueryBuilder<LibraryItem, LibraryItem, QAfterSortBy> thenByCurrentPosition() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'current_position', Sort.asc);
+    });
+  }
+
+  QueryBuilder<LibraryItem, LibraryItem, QAfterSortBy>
+      thenByCurrentPositionDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'current_position', Sort.desc);
+    });
+  }
+
   QueryBuilder<LibraryItem, LibraryItem, QAfterSortBy> thenByFileName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'file_name', Sort.asc);
@@ -989,6 +1184,14 @@ extension LibraryItemQueryWhereDistinct
     });
   }
 
+  QueryBuilder<LibraryItem, LibraryItem, QDistinct> distinctByCurrentPosition(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'current_position',
+          caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<LibraryItem, LibraryItem, QDistinct> distinctByFileName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1033,6 +1236,13 @@ extension LibraryItemQueryProperty
   QueryBuilder<LibraryItem, int, QQueryOperations> createdAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'created_at');
+    });
+  }
+
+  QueryBuilder<LibraryItem, String?, QQueryOperations>
+      currentPositionProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'current_position');
     });
   }
 

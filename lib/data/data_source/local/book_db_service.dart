@@ -8,7 +8,7 @@ class BookDbService {
     required this.isarDB,
   });
 
-  Future<void> insert(LibraryItem item) async {
+  Future<void> insertOrUpdate(LibraryItem item) async {
     await isarDB.writeTxn(
       () async {
         await isarDB.libraryItems.put(item);
@@ -17,8 +17,7 @@ class BookDbService {
   }
 
   Future<LibraryItem?> getItemById(int bookId) async {
-    final item =
-        isarDB.libraryItems.filter().bookIdEqualTo(bookId).findFirst();
+    final item = isarDB.libraryItems.filter().bookIdEqualTo(bookId).findFirst();
     return item;
   }
 

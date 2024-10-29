@@ -27,6 +27,9 @@ class LibraryItem {
   @Name('created_at')
   int createdAt;
 
+  @Name('current_position')
+  String? currentPosition;
+
   LibraryItem({
     this.id = Isar.autoIncrement,
     required this.bookId,
@@ -35,6 +38,7 @@ class LibraryItem {
     required this.fileName,
     this.isExternalBook = false,
     required this.createdAt,
+    this.currentPosition
   });
 
   Future<bool> fileExists(String fileName) async {
